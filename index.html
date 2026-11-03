@@ -1,6 +1,17 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Chincoteague to Philadelphia</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Nov 3–5, 2026: two driving days from Chincoteague to Philadelphia, with stops in Maryland, DC, Delaware and New Jersey.">
+<meta property="og:title" content="Chincoteague to Philadelphia">
+<meta property="og:description" content="Nov 3–5, 2026: two driving days up the Delmarva and across the Delaware Valley.">
+<meta name="theme-color" content="#e7ebe8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1719" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230c5553'/%3E%3Cpath d='M9 24 L16 8 L23 24' fill='none' stroke='%23e7ebe8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>
   /* Layout: single column log sheet. Mono time rail on the left, stop detail on the right,
@@ -10,11 +21,11 @@
     --surface: #f8faf9;
     --surface-2: #dfe5e1;
     --ink: #141e1c;
-    --muted: #596a65;
+    --muted: #4b5b56;
     --rule: #c3cdc8;
     --accent: #0c5553;
     --accent-soft: #d3e2e0;
-    --gold: #8c5f14;
+    --gold: #74500e;
     --gold-soft: #ece0c8;
 
     --display: "Zilla Slab", Georgia, "Times New Roman", serif;
@@ -52,6 +63,12 @@
 
   * { box-sizing: border-box; }
 
+  html {
+    color-scheme: light;
+    scrollbar-color: var(--rule) var(--bg);
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background: var(--bg);
     color: var(--ink);
@@ -59,6 +76,17 @@
     font-size: 16px;
     line-height: 1.55;
     margin: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--accent); color: var(--surface); }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .wrap {
@@ -71,15 +99,6 @@
 
   /* ---- masthead ---- */
 
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 0.75rem;
-  }
-
   h1 {
     font-family: var(--display);
     font-weight: 700;
@@ -87,7 +106,17 @@
     line-height: 1.05;
     letter-spacing: -0.015em;
     text-wrap: balance;
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.625rem;
+  }
+
+  .dates {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin: 0 0 0.75rem;
   }
 
   .dek {
@@ -166,7 +195,7 @@
     display: grid;
     grid-template-columns: 5.25rem 1fr;
     gap: 0 1.25rem;
-    padding-block: 1.125rem;
+    padding: 1.125rem 0;
     border-bottom: 1px solid var(--rule);
   }
   .stop:last-child { border-bottom: none; }
@@ -211,16 +240,17 @@
     font-weight: 700;
     letter-spacing: 0.03em;
     color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 1px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    /* taller hit area for thumbs without shifting the line */
+    padding-block: 0.4rem;
+    margin-block: -0.4rem;
+    border-radius: 2px;
+    transition: background-color 120ms ease-out;
   }
-  a.map:hover { background: var(--accent-soft); }
-  a.map:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-    border-radius: 1px;
-  }
+  a.map:hover { background: var(--accent-soft); text-decoration-thickness: 2px; }
+  .drive .leg a.map { padding-block: 0.15rem; margin-block: -0.15rem; }
 
   .tag {
     font-family: var(--mono);
@@ -243,23 +273,28 @@
     display: grid;
     grid-template-columns: 5.25rem 1fr;
     gap: 0 1.25rem;
-    padding-block: 0.625rem;
+    padding: 0.625rem 0;
     border-bottom: 1px solid var(--rule);
   }
   .drive .time { color: var(--muted); font-weight: 400; }
   .drive .leg {
-    font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
     color: var(--muted);
     min-width: 0;
   }
-  .drive .leg strong { color: var(--ink); font-weight: 700; }
+  .drive .leg strong {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--ink);
+    font-weight: 700;
+  }
 
   /* ---- callout ---- */
 
   .note {
     background: var(--surface);
-    border-left: 3px solid var(--gold);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
     padding: 0.875rem 1rem;
     margin-block: 1.25rem;
     font-size: 0.9375rem;
@@ -351,16 +386,33 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
+
+  /* Printed copy for the glovebox: always light, no page splits inside a stop. */
+  @media print {
+    :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+      --bg: #fff; --surface: #fff; --surface-2: #eee; --ink: #000;
+      --muted: #333; --rule: #bbb; --accent: #0c5553; --accent-soft: #fff;
+      --gold: #5c3f0a; --gold-soft: #fff;
+      color-scheme: light;
+    }
+    body { font-size: 11pt; }
+    .wrap { max-width: none; padding: 0; }
+    .stop, .drive, .note, .book, tr { break-inside: avoid; }
+    .day-head { break-after: avoid; }
+    a.map { text-decoration: none; }
+  }
 </style>
+</head>
+<body>
 
 <div class="wrap">
 
-  <p class="eyebrow">Nov 3 – Nov 5, 2026</p>
   <h1>Chincoteague to Philadelphia</h1>
+  <p class="dates">Tue Nov 3 – Thu Nov 5, 2026</p>
   <p class="dek">Two driving days up the Delmarva and across the Delaware Valley. Five states and the District, with real stops in each.</p>
 
-  <ul class="states">
-    <li class="done">VA</li>
+  <ul class="states" aria-label="States on this trip">
+    <li class="done" title="Already counted">VA</li>
     <li>MD</li>
     <li>DC</li>
     <li>DE</li>

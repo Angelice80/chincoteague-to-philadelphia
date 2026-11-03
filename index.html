@@ -151,10 +151,59 @@
     color: var(--accent);
   }
 
-  .states-note {
+  .key-times {
+    font-size: 1.0625rem;
+    color: var(--ink);
+    max-width: 34rem;
+    margin: 0 0 1.75rem;
+  }
+  .key-times { text-wrap: balance; }
+  .key-times strong { color: var(--gold); }
+
+  /* Visually hidden, still read aloud. */
+  .sr {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ---- jump links ---- */
+
+  .days {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    gap: 0.375rem;
+    margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 2rem;
+    padding: 0.625rem max(16px, env(safe-area-inset-left, 0px));
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .days a {
+    flex: 1 1 0;
+    min-height: 44px;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
     font-size: 0.8125rem;
-    color: var(--muted);
-    margin: 0 0 2.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .days a:hover { border-color: var(--accent); }
+  .days a[aria-current] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--surface);
   }
 
   /* ---- day bands ---- */
@@ -163,6 +212,20 @@
     margin-block: 0 2.75rem;
     border-top: 2px solid var(--ink);
     padding-top: 1rem;
+    scroll-margin-top: 4.5rem;
+  }
+
+  .timeline { list-style: none; margin: 0; padding: 0; }
+
+  .today-badge {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    background: var(--accent);
+    color: var(--surface);
   }
 
   .day-head {
@@ -183,9 +246,8 @@
 
   .day-stat {
     font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
     color: var(--muted);
   }
 
@@ -200,13 +262,54 @@
   }
   .stop:last-child { border-bottom: none; }
 
+  .rail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.375rem;
+  }
+
   .time {
+    display: block;
     font-family: var(--mono);
     font-variant-numeric: tabular-nums;
     font-size: 0.875rem;
     font-weight: 700;
     color: var(--accent);
     padding-top: 0.15rem;
+  }
+
+  .flag {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    background: var(--gold);
+    color: var(--surface);
+  }
+  .flag.next { background: var(--accent); }
+
+  /* Hard stops: the three times the trip can't slip. Whole row tinted, time in gold. */
+  .stop.hard {
+    background: var(--gold-soft);
+    margin-left: -0.75rem; margin-right: -0.75rem;
+    padding-left: 0.75rem; padding-right: 0.75rem;
+    border-radius: 3px;
+    border-bottom-color: transparent;
+  }
+  .stop.hard .time { color: var(--gold); font-size: 1rem; padding-top: 0; }
+  .stop.hard .detail p { color: var(--ink); }
+
+  /* Set by the script during the trip. */
+  .stop.next, .drive.next {
+    box-shadow: inset 0 0 0 1px var(--accent);
+    margin-left: -0.75rem; margin-right: -0.75rem;
+    padding-left: 0.75rem; padding-right: 0.75rem;
+    border-radius: 3px;
   }
 
   .detail { min-width: 0; }
@@ -223,7 +326,9 @@
     margin: 0 0 0.5rem;
     color: var(--muted);
     font-size: 0.9375rem;
+    max-width: 62ch;
   }
+  p { text-wrap: pretty; }
   .detail p:last-child { margin-bottom: 0; }
 
   .meta {
@@ -236,7 +341,7 @@
 
   a.map {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.03em;
     color: var(--accent);
@@ -244,17 +349,29 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
     /* taller hit area for thumbs without shifting the line */
-    padding-block: 0.4rem;
-    margin-block: -0.4rem;
+    padding-block: 0.6rem;
+    margin-block: -0.6rem;
     border-radius: 2px;
     transition: background-color 120ms ease-out;
   }
   a.map:hover { background: var(--accent-soft); text-decoration-thickness: 2px; }
-  .drive .leg a.map { padding-block: 0.15rem; margin-block: -0.15rem; }
+  .meta { row-gap: 0.75rem; }
+  .drive .leg a.map { padding-block: 0.3rem; margin-block: -0.3rem; }
+
+  .tbd {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    border: 1px dashed var(--gold);
+    border-radius: 2px;
+    padding: 0.1rem 0.4rem;
+  }
 
   .tag {
     font-family: var(--mono);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -362,7 +479,7 @@
   }
 
   .book {
-    margin-top: 2rem;
+    margin: 0 0 2rem;
     padding: 1.125rem 1.25rem;
     background: var(--accent-soft);
     border: 1px solid var(--accent);
@@ -375,11 +492,12 @@
     margin: 0 0 0.4rem;
     color: var(--accent);
   }
-  .book p { margin: 0 0 0.5rem; }
+  .book p { margin: 0 0 0.5rem; max-width: 62ch; }
   .book p:last-child { margin: 0; }
 
   @media (max-width: 29rem) {
     .stop, .drive { grid-template-columns: 1fr; gap: 0.3rem; }
+    .rail { flex-direction: row; align-items: center; gap: 0.5rem; }
     .time { padding-top: 0; }
   }
 
@@ -400,297 +518,323 @@
     .stop, .drive, .note, .book, tr { break-inside: avoid; }
     .day-head { break-after: avoid; }
     a.map { text-decoration: none; }
+    .days, .flag.next, .today-badge { display: none; }
+    .stop.hard { border: 1px solid #000; }
+    .stop.next, .drive.next { box-shadow: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<main class="wrap">
 
   <h1>Chincoteague to Philadelphia</h1>
   <p class="dates">Tue Nov 3 – Thu Nov 5, 2026</p>
   <p class="dek">Two driving days up the Delmarva and across the Delaware Valley. Five states and the District, with real stops in each.</p>
 
   <ul class="states" aria-label="States on this trip">
-    <li class="done" title="Already counted">VA</li>
+    <li class="done">VA<span class="sr"> (already counted)</span></li>
     <li>MD</li>
     <li>DC</li>
     <li>DE</li>
     <li>NJ</li>
     <li>PA</li>
   </ul>
-  <p class="states-note">Virginia already counted. Flight out of PHL departs noon Thursday — car returned by 9:00 a.m.</p>
+  <p class="key-times">Virginia already counted. <strong>Car back by 9:00 a.m. Thursday</strong> for a <strong>noon flight</strong> out of PHL.</p>
+
+  <div class="book" id="book">
+    <h2>Book tonight</h2>
+    <p>Two rooms — Baltimore for Tuesday, Philadelphia for Wednesday — and the Old Ebbitt reservation for 5:00 p.m. Tuesday.</p>
+    <p>Everything else on this page works if you improvise. Those three don't.</p>
+  </div>
+
+  <nav class="days" aria-label="Jump to a day">
+    <a href="#tue">Tue</a>
+    <a href="#wed">Wed</a>
+    <a href="#thu">Thu</a>
+    <a href="#costs">Costs</a>
+  </nav>
 
   <!-- ===== TUESDAY ===== -->
-  <section class="day">
+  <section class="day" id="tue">
     <div class="day-head">
       <h2>Tuesday, November 3</h2>
       <span class="day-stat">Chincoteague → Annapolis → DC → Baltimore · 265 mi</span>
     </div>
+    <ol class="timeline">
 
-    <div class="stop">
-      <div class="time">6:30 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T06:30">6:30 AM</time></div>
       <div class="detail">
-        <h3>Breakfast — Mr. Baldy's Family Restaurant</h3>
+        <h3><span class="sr">6:30 AM: </span>Breakfast — Mr. Baldy's Family Restaurant</h3>
         <p>Opens at 6 a.m., the only real kitchen running that early on the island. Big portions, island prices.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Mr.%20Baldy%27s%20Family%20Restaurant%2C%203441%20Ridge%20Rd%2C%20Chincoteague%2C%20VA%2023336">3441 Ridge Rd, Chincoteague VA ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Mr.%20Baldy%27s%20Family%20Restaurant%2C%203441%20Ridge%20Rd%2C%20Chincoteague%2C%20VA%2023336">3441 Ridge Rd, Chincoteague VA<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag money">~$25</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="drive">
-      <div class="time">7:15 AM</div>
-      <div class="leg"><strong>Drive 2h 45m</strong> — US-13 north up the Delmarva, then US-50 west across the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Chesapeake%20Bay%20Bridge%2C%20Stevensville%2C%20MD">Chesapeake Bay Bridge ↗</a>. Westbound is free; the toll is eastbound only.</div>
-    </div>
+    <li class="drive">
+      <div class="rail"><time class="time" datetime="2026-11-03T07:15">7:15 AM</time></div>
+      <div class="leg"><strong>Drive 2h 45m</strong> — US-13 north up the Delmarva, then US-50 west across the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Chesapeake%20Bay%20Bridge%2C%20Stevensville%2C%20MD">Chesapeake Bay Bridge<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>. Westbound is free; the toll is eastbound only.</div>
+    </li>
 
-    <div class="stop">
-      <div class="time">10:00 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T10:00">10:00 AM</time></div>
       <div class="detail">
-        <h3>Maryland State House, Annapolis</h3>
+        <h3><span class="sr">10:00 AM: </span>Maryland State House, Annapolis</h3>
         <p>Oldest state capitol still in legislative use, and the room where Washington resigned his commission. Largest wooden dome in the country. Bring ID to get in.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Maryland%20State%20House%2C%20100%20State%20Cir%2C%20Annapolis%2C%20MD%2021401">100 State Cir, Annapolis MD ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Maryland%20State%20House%2C%20100%20State%20Cir%2C%20Annapolis%2C%20MD%2021401">100 State Cir, Annapolis MD<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag free">Free · 9–5</span>
           <span class="tag money">$6 parking</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">10:50 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T10:50">10:50 AM</time></div>
       <div class="detail">
-        <h3>Walk down Main Street to the harbor</h3>
+        <h3><span class="sr">10:50 AM: </span>Walk down Main Street to the harbor</h3>
         <p>Ten minutes downhill from the State House to City Dock. Naval Academy gate is right there if you want to look.</p>
         <div class="meta">
           <span class="tag free">Free</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">11:30 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T11:30">11:30 AM</time></div>
       <div class="detail">
-        <h3>Lunch — Boatyard Bar &amp; Grill</h3>
+        <h3><span class="sr">11:30 AM: </span>Lunch — Boatyard Bar &amp; Grill</h3>
         <p>Jumbo lump crab cakes are the reason to go. Usually a 40-minute wait; midweek in November there won't be one.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Boatyard%20Bar%20%26%20Grill%2C%20400%20Fourth%20St%2C%20Annapolis%2C%20MD%2021403">400 Fourth St, Annapolis MD ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Boatyard%20Bar%20%26%20Grill%2C%20400%20Fourth%20St%2C%20Annapolis%2C%20MD%2021403">400 Fourth St, Annapolis MD<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag money">~$70</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="drive">
-      <div class="time">1:00 PM</div>
+    <li class="drive">
+      <div class="rail"><time class="time" datetime="2026-11-03T13:00">1:00 PM</time></div>
       <div class="leg"><strong>Drive 45m</strong> — US-50 west into DC. Leaving by 1:00 beats the afternoon wall on this road.</div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">2:00 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T14:00">2:00 PM</time></div>
       <div class="detail">
-        <h3>Park once, near the Mall</h3>
-        <p>One garage in Penn Quarter or near the Mall, and leave the car until 9:45. Everything today is on foot from there.</p>
+        <h3><span class="sr">2:00 PM: </span>Park once, near the Mall</h3>
+        <p>One garage in Penn Quarter or near the Mall. Leave the car there through dinner; everything until 7:00 is on foot.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=parking%20garage%20Penn%20Quarter%2C%20Washington%2C%20DC">Penn Quarter garages ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=parking%20garage%20Penn%20Quarter%2C%20Washington%2C%20DC">Penn Quarter garages<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag money">$25–40</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">2:15 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T14:15">2:15 PM</time></div>
       <div class="detail">
-        <h3>One Smithsonian — pick a single museum</h3>
+        <h3><span class="sr">2:15 PM: </span>One Smithsonian — pick a single museum</h3>
         <p>Air and Space or American History. All free, all close at 5:30. Two in an afternoon means seeing neither.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Air%20and%20Space%20Museum%2C%206th%20St%20SW%20%26%20Independence%20Ave%2C%20Washington%2C%20DC%2020560">Air and Space ↗</a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Museum%20of%20American%20History%2C%201300%20Constitution%20Ave%20NW%2C%20Washington%2C%20DC%2020560">American History ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Air%20and%20Space%20Museum%2C%206th%20St%20SW%20%26%20Independence%20Ave%2C%20Washington%2C%20DC%2020560">Air and Space<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Museum%20of%20American%20History%2C%201300%20Constitution%20Ave%20NW%2C%20Washington%2C%20DC%2020560">American History<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag free">Free</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">5:00 PM</div>
+    <li class="stop hard">
+      <div class="rail"><time class="time" datetime="2026-11-03T17:00">5:00 PM</time><span class="flag">Reserved</span></div>
       <div class="detail">
-        <h3>Dinner — Old Ebbitt Grill</h3>
+        <h3><span class="sr">5:00 PM, reserved: </span>Dinner — Old Ebbitt Grill</h3>
         <p>Washington's oldest saloon, open since 1856, directly across from the White House. Dark wood, antique fixtures, raw bar. <strong>Reserve this one</strong> — it fills every night.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Old%20Ebbitt%20Grill%2C%20675%2015th%20St%20NW%2C%20Washington%2C%20DC%2020005">675 15th St NW, Washington DC ↗</a>
-          <span class="tag">202-347-4800</span>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Old%20Ebbitt%20Grill%2C%20675%2015th%20St%20NW%2C%20Washington%2C%20DC%2020005">675 15th St NW, Washington DC<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <a class="map" href="tel:+12023474800">Call 202-347-4800</a>
           <span class="tag money">~$110</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">7:00 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-03T19:00">7:00 PM</time></div>
       <div class="detail">
-        <h3>The monuments after dark</h3>
+        <h3><span class="sr">7:00 PM: </span>The monuments after dark</h3>
         <p>Lincoln, Vietnam, Korean War, WWII, MLK, Jefferson. All outdoors, all lit, all open around the clock, and nearly empty on a November weeknight. This is the best thing on the whole route.</p>
-        <p>Lincoln to Jefferson and back is about three miles on foot. If the legs or the weather give out, there's free street parking along Ohio Drive by the Tidal Basin and near the Lincoln after 6:30 p.m. — drive between them instead.</p>
+        <p>Lincoln to Jefferson and back is about three miles on foot. If the legs or the weather give out, fetch the car and drive between them instead: there's free street parking along Ohio Drive by the Tidal Basin and near the Lincoln after 6:30 p.m.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Lincoln%20Memorial%2C%202%20Lincoln%20Memorial%20Cir%20NW%2C%20Washington%2C%20DC%2020037">Lincoln Memorial ↗</a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Thomas%20Jefferson%20Memorial%2C%2016%20E%20Basin%20Dr%20SW%2C%20Washington%2C%20DC%2020242">Jefferson Memorial ↗</a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ohio%20Drive%20SW%2C%20Washington%2C%20DC">Ohio Dr parking ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Lincoln%20Memorial%2C%202%20Lincoln%20Memorial%20Cir%20NW%2C%20Washington%2C%20DC%2020037">Lincoln Memorial<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Thomas%20Jefferson%20Memorial%2C%2016%20E%20Basin%20Dr%20SW%2C%20Washington%2C%20DC%2020242">Jefferson Memorial<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ohio%20Drive%20SW%2C%20Washington%2C%20DC">Ohio Dr parking<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag free">Free · 24 hrs</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="drive">
-      <div class="time">9:45 PM</div>
-      <div class="leg"><strong>Drive 1h</strong> — I-95 north to Baltimore. Sleep in Fells Point or Inner Harbor. Cheaper than DC, and it takes 45 minutes off tomorrow.</div>
-    </div>
+    <li class="drive">
+      <div class="rail"><time class="time" datetime="2026-11-03T21:45">9:45 PM</time></div>
+      <div class="leg"><strong>Drive 1h</strong> — I-95 north to Baltimore. Sleep in Fells Point or Inner Harbor. Cheaper than DC, and it takes 45 minutes off tomorrow. <span class="tbd">Hotel: not booked yet</span></div>
+    </li>
+    </ol>
   </section>
 
   <!-- ===== WEDNESDAY ===== -->
-  <section class="day">
+  <section class="day" id="wed">
     <div class="day-head">
       <h2>Wednesday, November 4</h2>
       <span class="day-stat">Baltimore → New Castle → Camden → Philadelphia · 135 mi</span>
     </div>
+    <ol class="timeline">
 
-    <div class="stop">
-      <div class="time">8:00 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-04T08:00">8:00 AM</time></div>
       <div class="detail">
-        <h3>Breakfast — Blue Moon Cafe, Fells Point</h3>
+        <h3><span class="sr">8:00 AM: </span>Breakfast — Blue Moon Cafe, Fells Point</h3>
         <p>Opens at 7. The Cap'n Crunch French toast is what people drive in for. Small room, so go early rather than at nine.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Blue%20Moon%20Cafe%2C%201621%20Aliceanna%20St%2C%20Baltimore%2C%20MD%2021231">1621 Aliceanna St, Baltimore MD ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Blue%20Moon%20Cafe%2C%201621%20Aliceanna%20St%2C%20Baltimore%2C%20MD%2021231">1621 Aliceanna St, Baltimore MD<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag money">~$40</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="drive">
-      <div class="time">9:30 AM</div>
+    <li class="drive">
+      <div class="rail"><time class="time" datetime="2026-11-04T09:30">9:30 AM</time></div>
       <div class="leg"><strong>Drive 2h</strong> — I-95 north. Northbound out of the DC–Baltimore corridor clears up by 9:30, which is why breakfast is unhurried.</div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">11:45 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-04T11:45">11:45 AM</time></div>
       <div class="detail">
-        <h3>Historic New Castle, Delaware</h3>
+        <h3><span class="sr">11:45 AM: </span>Historic New Castle, Delaware</h3>
         <p>Cobblestone Delaware Street, the Green, and Battery Park along the river. A colonial river town that stayed largely intact. Forty-five minutes on foot covers it, and it beats downtown Wilmington by a mile.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Street%2C%20New%20Castle%2C%20DE%2019720">Delaware St, New Castle DE ↗</a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battery%20Park%2C%20New%20Castle%2C%20DE%2019720">Battery Park ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Street%2C%20New%20Castle%2C%20DE%2019720">Delaware St, New Castle DE<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battery%20Park%2C%20New%20Castle%2C%20DE%2019720">Battery Park<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag free">Free</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">12:30 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-04T12:30">12:30 PM</time></div>
       <div class="detail">
-        <h3>Lunch — Jessop's Tavern</h3>
+        <h3><span class="sr">12:30 PM: </span>Lunch — Jessop's Tavern</h3>
         <p>Colonial tavern on the cobblestones, creaking wood floors, Belgian beer list, and a shepherd's pie that arrives the size of a brick.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Jessop%27s%20Tavern%2C%20114%20Delaware%20St%2C%20New%20Castle%2C%20DE%2019720">114 Delaware St, New Castle DE ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Jessop%27s%20Tavern%2C%20114%20Delaware%20St%2C%20New%20Castle%2C%20DE%2019720">114 Delaware St, New Castle DE<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag money">~$60</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="drive">
-      <div class="time">2:00 PM</div>
-      <div class="leg"><strong>Drive 50m</strong> — east over the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Memorial%20Bridge">Delaware Memorial Bridge ↗</a> ($5), then NJ-295 north. Forty miles through New Jersey on the way, with no detour at all.</div>
-    </div>
+    <li class="drive">
+      <div class="rail"><time class="time" datetime="2026-11-04T14:00">2:00 PM</time></div>
+      <div class="leg"><strong>Drive 50m</strong> — east over the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Memorial%20Bridge">Delaware Memorial Bridge<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a> ($5), then NJ-295 north. Forty miles through New Jersey on the way, with no detour at all. That puts you in Camden around 2:50; the spare 40 minutes absorbs bridge traffic.</div>
+    </li>
 
-    <div class="stop">
-      <div class="time">3:30 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-04T15:30">3:30 PM</time></div>
       <div class="detail">
-        <h3>Camden waterfront, New Jersey</h3>
+        <h3><span class="sr">3:30 PM: </span>Camden waterfront, New Jersey</h3>
         <p>Battleship New Jersey is docked here, and the view back across the Delaware at the Philadelphia skyline is the actual reason to stop. Late afternoon light does the work.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battleship%20New%20Jersey%20Museum%2C%2062%20Battleship%20Pl%2C%20Camden%2C%20NJ%2008103">62 Battleship Pl, Camden NJ ↗</a>
-          <span class="tag free">Waterfront free</span>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battleship%20New%20Jersey%20Museum%2C%2062%20Battleship%20Pl%2C%20Camden%2C%20NJ%2008103">62 Battleship Pl, Camden NJ<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <span class="tag free">Free · waterfront</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="drive">
-      <div class="time">5:00 PM</div>
-      <div class="leg"><strong>Drive 20m</strong> — <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Benjamin%20Franklin%20Bridge">Ben Franklin Bridge ↗</a> ($5) into Old City. Check in, drop the bags.</div>
-    </div>
+    <li class="drive">
+      <div class="rail"><time class="time" datetime="2026-11-04T17:00">5:00 PM</time></div>
+      <div class="leg"><strong>Drive 20m</strong> — <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Benjamin%20Franklin%20Bridge">Ben Franklin Bridge<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a> ($5) into Old City. Check in, drop the bags. <span class="tbd">Hotel: not booked yet</span></div>
+    </li>
 
-    <div class="stop">
-      <div class="time">7:00 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-04T19:00">7:00 PM</time></div>
       <div class="detail">
-        <h3>Dinner — The Plough &amp; the Stars</h3>
+        <h3><span class="sr">7:00 PM: </span>Dinner — The Plough &amp; the Stars</h3>
         <p>Old City Irish pub at Chestnut and 2nd, in an old bank building. Open till 2 a.m., so there's no rush getting there.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=The%20Plough%20and%20the%20Stars%2C%20123%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">123 Chestnut St, Philadelphia PA ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=The%20Plough%20and%20the%20Stars%2C%20123%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">123 Chestnut St, Philadelphia PA<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag money">~$75</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">9:00 PM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-04T21:00">9:00 PM</time></div>
       <div class="detail">
-        <h3>Independence Hall and the Liberty Bell — tonight, not tomorrow</h3>
+        <h3><span class="sr">9:00 PM: </span>Independence Hall and the Liberty Bell — tonight, not tomorrow</h3>
         <p>Both lit after dark and both a short walk from dinner. The Liberty Bell Center is glass-walled, so the bell is visible from the sidewalk at any hour, and Independence Hall's exterior is lit too.</p>
         <p>Do it now. Thursday morning does not exist, and the timed interior tickets wouldn't fit a forty-minute window anyway.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bell%20Center%2C%20526%20Market%20St%2C%20Philadelphia%2C%20PA%2019106">Liberty Bell Center ↗</a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Independence%20Hall%2C%20520%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">Independence Hall ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bell%20Center%2C%20526%20Market%20St%2C%20Philadelphia%2C%20PA%2019106">Liberty Bell Center<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Independence%20Hall%2C%20520%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">Independence Hall<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
           <span class="tag free">Free</span>
         </div>
       </div>
-    </div>
+    </li>
+    </ol>
   </section>
 
   <!-- ===== THURSDAY ===== -->
-  <section class="day">
+  <section class="day" id="thu">
     <div class="day-head">
       <h2>Thursday, November 5</h2>
       <span class="day-stat">Philadelphia → PHL · 12 mi · wheels up at noon</span>
     </div>
+    <ol class="timeline">
 
-    <div class="stop">
-      <div class="time">7:30 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-05T07:30">7:30 AM</time></div>
       <div class="detail">
-        <h3>Coffee near the hotel</h3>
+        <h3><span class="sr">7:30 AM: </span>Coffee near the hotel</h3>
         <p>Something quick. Nothing with a wait.</p>
         <div class="meta">
           <span class="tag money">~$20</span>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">8:15 AM</div>
+    <li class="stop">
+      <div class="rail"><time class="time" datetime="2026-11-05T08:15">8:15 AM</time></div>
       <div class="detail">
-        <h3>Leave for the airport — fuel up on the way</h3>
+        <h3><span class="sr">8:15 AM: </span>Leave for the airport — fuel up on the way</h3>
         <p>Twenty minutes clear, forty in traffic. Fill the tank before the return or Budget charges their own rate for it.</p>
         <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Philadelphia%20International%20Airport%2C%208000%20Essington%20Ave%2C%20Philadelphia%2C%20PA%2019153">PHL · 8000 Essington Ave ↗</a>
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Philadelphia%20International%20Airport%2C%208000%20Essington%20Ave%2C%20Philadelphia%2C%20PA%2019153">PHL · 8000 Essington Ave<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">9:00 AM</div>
+    <li class="stop hard">
+      <div class="rail"><time class="time" datetime="2026-11-05T09:00">9:00 AM</time><span class="flag">Hard stop</span></div>
       <div class="detail">
-        <h3>Return the car, then the shuttle to the terminal</h3>
-        <p>PHL's rental return plus shuttle eats more time than anyone plans for. Nine o'clock is the number, not a suggestion.</p>
+        <h3><span class="sr">9:00 AM, hard stop: </span>Return the car, then the shuttle to the terminal</h3>
+        <p>PHL's rental return plus shuttle eats more time than anyone plans for. Nine o'clock is the number, not a suggestion. Follow the Rental Car Return signs; your Budget confirmation has the exact drop-off.</p>
+        <div class="meta">
+          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Budget%20Car%20Rental%2C%20Philadelphia%20International%20Airport">Budget return at PHL<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
+        </div>
       </div>
-    </div>
+    </li>
 
-    <div class="stop">
-      <div class="time">12:00 PM</div>
+    <li class="stop hard">
+      <div class="rail"><time class="time" datetime="2026-11-05T12:00">12:00 PM</time><span class="flag">Hard stop</span></div>
       <div class="detail">
-        <h3>Frontier departs</h3>
-        <p>Frontier has no interline agreements. If this flight cancels they cannot put you on another airline — you wait for their next one.</p>
+        <h3><span class="sr">12:00 PM, hard stop: </span>Frontier departs</h3>
+        <p>Check the terminal and gate in the Frontier app the night before.</p>
+        <p>Frontier has no interline agreements. If this flight cancels they cannot put you on another airline — you wait for their next one. Rebook in the app right away, then compare one-way fares on other airlines; a new ticket can beat a day's wait.</p>
       </div>
-    </div>
+    </li>
+    </ol>
   </section>
 
   <!-- ===== COSTS ===== -->
-  <section class="day costs">
+  <section class="day costs" id="costs">
     <div class="day-head">
       <h2>What it runs</h2>
       <span class="day-stat">Two people · on top of flights and the rental</span>
@@ -723,9 +867,9 @@
           </tr>
           <tr>
             <td>Parking
-              <span class="sub">DC garage $25–40, Philly overnight $45–60</span>
+              <span class="sub">Annapolis $6, DC garage $25–40, Philly overnight $45–60</span>
             </td>
-            <td>$100</td>
+            <td>$105</td>
           </tr>
           <tr>
             <td>Gas
@@ -747,7 +891,7 @@
           </tr>
         </tbody>
         <tfoot>
-          <tr><td>Total</td><td>$825–945</td></tr>
+          <tr><td>Total</td><td>$830–950</td></tr>
         </tfoot>
       </table>
     </div>
@@ -756,14 +900,53 @@
       <strong>Why DC comes first</strong>
       Washington sits west of the Chesapeake; Delaware, New Jersey and Philadelphia all sit on one line northeast of it. Hitting Delaware before DC would cost four hours of backtracking, and running DC as a day trip from Philly would cost five. The order is set by the map, not by preference.
     </div>
-
-    <div class="book">
-      <h2>Book tonight</h2>
-      <p>Two rooms — Baltimore for Tuesday, Philadelphia for Wednesday — and the Old Ebbitt reservation for 5:00 p.m. Tuesday.</p>
-      <p>Everything else on this page works if you improvise. Those three don't.</p>
-    </div>
   </section>
 
-</div>
+</main>
+
+<script>
+  // During the trip: mark today in the jump links, flag the next stop, and retire "Book tonight".
+  // Times are read as the phone's local time (the whole route is Eastern). Without JS the page is unchanged.
+  (function () {
+    var days = { "2026-11-03": "tue", "2026-11-04": "wed", "2026-11-05": "thu" };
+    var stamp = function (d) {
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    function update(scroll) {
+      var now = new Date();
+      var today = stamp(now);
+      var book = document.getElementById("book");
+      if (book && today > "2026-11-02") book.hidden = true;
+
+      var dayId = days[today];
+      document.querySelectorAll(".days a").forEach(function (a) {
+        if (dayId && a.getAttribute("href") === "#" + dayId) a.setAttribute("aria-current", "date");
+        else a.removeAttribute("aria-current");
+      });
+      document.querySelectorAll(".today-badge").forEach(function (b) { b.remove(); });
+      if (dayId) {
+        var head = document.querySelector("#" + dayId + " .day-head");
+        if (head) head.insertAdjacentHTML("beforeend", '<span class="today-badge">Today</span>');
+      }
+
+      document.querySelectorAll(".next").forEach(function (el) { el.classList.remove("next"); });
+      document.querySelectorAll(".flag.next").forEach(function (el) { el.remove(); });
+      var next = null;
+      document.querySelectorAll(".timeline time.time").forEach(function (t) {
+        if (!next && new Date(t.getAttribute("datetime")) >= now) next = t;
+      });
+      if (next && dayId) {
+        var row = next.closest("li");
+        row.classList.add("next");
+        next.insertAdjacentHTML("afterend", '<span class="flag next">Next</span>');
+        if (scroll && !location.hash) row.scrollIntoView({ block: "center" });
+      }
+    }
+
+    update(true);
+    setInterval(function () { update(false); }, 60000);
+  })();
+</script>
 
 </body></html>

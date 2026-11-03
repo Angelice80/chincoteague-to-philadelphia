@@ -7,160 +7,72 @@
 <meta name="description" content="Nov 3–5, 2026: two driving days from Chincoteague to Philadelphia, with stops in Maryland, DC, Delaware and New Jersey.">
 <meta property="og:title" content="Chincoteague to Philadelphia">
 <meta property="og:description" content="Nov 3–5, 2026: two driving days up the Delmarva and across the Delaware Valley.">
-<meta name="theme-color" content="#e7ebe8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0f1719" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230c5553'/%3E%3Cpath d='M9 24 L16 8 L23 24' fill='none' stroke='%23e7ebe8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<meta name="theme-color" content="#17191b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='6' fill='%23006b3f' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M16 24V10m-6 6 6-6 6 6' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/overpass-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-  /* Layout: single column log sheet. Mono time rail on the left, stop detail on the right,
-     day bands breaking the sequence. Salt-marsh palette, November on the Eastern Shore. */
-  :root {
-    --bg: #e7ebe8;
-    --surface: #f8faf9;
-    --surface-2: #dfe5e1;
-    --ink: #141e1c;
-    --muted: #4b5b56;
-    --rule: #c3cdc8;
-    --accent: #0c5553;
-    --accent-soft: #d3e2e0;
-    --gold: #74500e;
-    --gold-soft: #ece0c8;
+  /* The trip is signed like the road it runs on: asphalt ground, retroreflective panels,
+     and MUTCD colour jobs. Green = driving, brown = sights, blue = food and services,
+     yellow on black = the times that can't slip. */
+  /* Overpass (SIL OFL), Latin subset, variable weight, served beside the page so the signs
+     keep their lettering on a weak signal. */
+  @font-face {
+    font-family: "Overpass";
+    src: url("fonts/overpass-latin.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
 
-    --display: "Zilla Slab", Georgia, "Times New Roman", serif;
-    --body: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0f1719;
-      --surface: #182224;
-      --surface-2: #202c2e;
-      --ink: #e3eae7;
-      --muted: #94a5a0;
-      --rule: #2d3b3d;
-      --accent: #5bbcaf;
-      --accent-soft: #1b3334;
-      --gold: #d6aa58;
-      --gold-soft: #302819;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0f1719;
-    --surface: #182224;
-    --surface-2: #202c2e;
-    --ink: #e3eae7;
-    --muted: #94a5a0;
-    --rule: #2d3b3d;
-    --accent: #5bbcaf;
-    --accent-soft: #1b3334;
-    --gold: #d6aa58;
-    --gold-soft: #302819;
+  :root {
     color-scheme: dark;
+    --asphalt: #17191b;
+    --asphalt-2: #212427;
+    --line: #3a3f44;
+    --ink: #f4f5f2;
+    --ink-2: #c3c8cc;
+    --ink-3: #959ca2;
+
+    --green: #006b3f;
+    --brown: #6b4423;
+    --blue: #1d4f91;
+    --yellow: #ffcc00;
+    --black: #111;
+
+    --font: "Overpass", "Highway Gothic", "Arial Narrow", system-ui, sans-serif;
+    --gutter: max(16px, env(safe-area-inset-left, 0px));
   }
 
   * { box-sizing: border-box; }
 
   html {
-    color-scheme: light;
-    scrollbar-color: var(--rule) var(--bg);
+    background: var(--asphalt);
+    scrollbar-color: var(--line) var(--asphalt);
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 4.5rem;
   }
 
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--body);
-    font-size: 16px;
-    line-height: 1.55;
     margin: 0;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--asphalt);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
     -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  ::selection { background: var(--accent); color: var(--surface); }
+  ::selection { background: var(--yellow); color: var(--black); }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 3px solid var(--yellow);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
-  .wrap {
-    max-width: 48rem;
-    margin: 0 auto;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 2.5rem 4rem;
-  }
+  a { color: inherit; }
 
-  /* ---- masthead ---- */
-
-  h1 {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2rem, 7vw, 3rem);
-    line-height: 1.05;
-    letter-spacing: -0.015em;
-    text-wrap: balance;
-    margin: 0 0 0.625rem;
-  }
-
-  .dates {
-    font-family: var(--mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--accent);
-    margin: 0 0 0.75rem;
-  }
-
-  .dek {
-    font-size: 1.0625rem;
-    color: var(--muted);
-    max-width: 34rem;
-    margin: 0 0 1.75rem;
-  }
-
-  .states {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    margin: 0 0 1rem;
-    padding: 0;
-    list-style: none;
-  }
-  .states li {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 0.3rem 0.55rem;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    background: var(--surface);
-    color: var(--ink);
-  }
-  .states li.done {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .key-times {
-    font-size: 1.0625rem;
-    color: var(--ink);
-    max-width: 34rem;
-    margin: 0 0 1.75rem;
-  }
-  .key-times { text-wrap: balance; }
-  .key-times strong { color: var(--gold); }
-
-  /* Visually hidden, still read aloud. */
   .sr {
     position: absolute;
     width: 1px; height: 1px;
@@ -171,782 +83,1102 @@
     border: 0;
   }
 
-  /* ---- jump links ---- */
+  .wrap {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .i { width: 0.8em; height: 0.8em; vertical-align: -0.05em; flex: none; }
+
+  /* ---------- title strip ---------- */
+
+  .masthead {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.25rem);
+    padding-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(1.75rem, 7.5vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+    text-wrap: balance;
+  }
+
+  .dates {
+    font-weight: 600;
+    color: var(--ink-2);
+    margin: 0 0 0.75rem;
+  }
+
+  .dek {
+    color: var(--ink-2);
+    margin: 0 0 1rem;
+    max-width: 36rem;
+    text-wrap: pretty;
+  }
+
+  /* State-line plates: white-bordered, VA already struck off. */
+  .states {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .states li {
+    min-width: 2.75rem;
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.5rem 0.2rem;
+    border: 2px solid var(--ink);
+    border-radius: 5px;
+  }
+  .states li.done {
+    background: var(--ink);
+    color: var(--asphalt);
+  }
+
+  /* ---------- route strip ---------- */
+
+  .route {
+    margin: 1.25rem 0 0;
+    border-radius: 8px;
+    background: var(--asphalt-2);
+    overflow: hidden;
+  }
+  .route svg { display: block; width: 100%; max-width: 30rem; height: auto; margin: 0 auto; }
+  .route figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0.875rem 0.625rem;
+    font-size: 0.8125rem;
+    color: var(--ink-3);
+  }
+
+  /* ---------- the sign ---------- */
+
+  .sign-wrap { margin: 1.5rem 0 0; }
+
+  .sign {
+    position: relative;
+    margin-top: 1.25rem;
+    padding: 1.5rem 1.125rem 1.125rem;
+    border: 3px solid #fff;
+    border-radius: 12px;
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 0 0 4px var(--green), 0 10px 24px rgba(0, 0, 0, 0.45);
+    transition: background-color 300ms cubic-bezier(.2,.8,.2,1), box-shadow 300ms cubic-bezier(.2,.8,.2,1);
+  }
+  .sign[data-kind="sight"] { background: var(--brown); box-shadow: 0 0 0 4px var(--brown), 0 10px 24px rgba(0,0,0,.45); }
+  .sign[data-kind="food"], .sign[data-kind="park"] { background: var(--blue); box-shadow: 0 0 0 4px var(--blue), 0 10px 24px rgba(0,0,0,.45); }
+  .sign[data-hard] {
+    background: var(--yellow);
+    color: var(--black);
+    border-color: var(--black);
+    box-shadow: 0 0 0 4px var(--yellow), 0 10px 24px rgba(0,0,0,.45);
+  }
+
+  /* Exit tab: the time sits where the exit number would. */
+  .tab {
+    position: absolute;
+    top: -1.25rem;
+    right: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.3rem 0.75rem 0.15rem;
+    background: inherit;
+    border: 3px solid;
+    border-color: inherit;
+    border-bottom: 0;
+    border-radius: 7px 7px 0 0;
+    font-weight: 800;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .tab small { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; opacity: 0.9; }
+
+  /* Supplemental plaque hung under the panel: why this one can't slip. */
+  .plaque {
+    display: table;
+    margin: 0.625rem auto 0;
+    padding: 0.35rem 1rem 0.2rem;
+    background: var(--yellow);
+    color: var(--black);
+    border: 3px solid var(--black);
+    outline: 3px solid var(--yellow);
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .plaque[hidden] { display: none; }
+
+  .dot { margin: 0 0.15em 0 -0.05em; }
+
+  /* Earlier stops fold away once the trip is under way. */
+  .earlier {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin: 0 0 0.25rem;
+    padding: 0.5rem 0.875rem 0.375rem;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-align: left;
+    color: var(--ink-2);
+    background: var(--asphalt-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .earlier:hover { color: var(--ink); border-color: var(--ink-3); }
+  .day:not(.show-past) .row.past { display: none; }
+
+  /* A day that is entirely behind you folds to one line: heading plus its button. */
+  .day.all-past:not(.show-past) { padding-top: 1.25rem; }
+  .day.all-past:not(.show-past) .day-stat { display: none; }
+  .day.all-past:not(.show-past) .day-head { align-items: center; margin-bottom: 0; }
+  .day.all-past .day-head .earlier { width: auto; margin: 0 0 0 auto; padding-inline: 0.75rem; }
+  .day.all-past:not(.show-past) .day-head h2 { font-size: 1.125rem; color: var(--ink-2); }
+
+  .sign h2 {
+    margin: 0.25rem 0 0.375rem;
+    font-size: clamp(1.625rem, 7vw, 2.125rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+
+  .sign .sub {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    opacity: 0.95;
+    text-wrap: pretty;
+  }
+
+  .sign .then {
+    margin: 1rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 2px solid currentColor;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 0.75rem;
+  }
+  .sign .then b { font-weight: 800; }
+  .sign .then[hidden] { display: none; }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1 1 0;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    background: #fff;
+    color: var(--black);
+    border: 2px solid #fff;
+    transition: transform 120ms cubic-bezier(.2,.8,.2,1);
+  }
+  .btn.ghost { background: transparent; color: inherit; border-color: currentColor; }
+  .btn:active { transform: scale(0.98); }
+  .sign[data-hard] .btn { background: var(--black); color: var(--yellow); border-color: var(--black); }
+  .sign[data-hard] .btn.ghost { background: transparent; color: var(--black); }
+  .btn[hidden] { display: none; }
+
+  /* ---------- book tonight (yellow: you must) ---------- */
+
+  .book {
+    margin: 1.5rem 0 0;
+    padding: 1rem 1.125rem;
+    background: var(--yellow);
+    color: var(--black);
+    border-radius: 10px;
+  }
+  .book[hidden] { display: none; }
+  .book h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+  .book p { margin: 0 0 0.375rem; max-width: 60ch; }
+  .book p:last-child { margin: 0; font-weight: 600; }
+
+  /* ---------- day tabs ---------- */
 
   .days {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 5;
     display: flex;
     gap: 0.375rem;
-    margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 2rem;
-    padding: 0.625rem max(16px, env(safe-area-inset-left, 0px));
-    background: var(--bg);
-    border-bottom: 1px solid var(--rule);
+    margin: 1.75rem calc(-1 * var(--gutter)) 0;
+    padding: 0.5rem var(--gutter);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
+    background: var(--asphalt);
+    border-bottom: 1px solid var(--line);
   }
   .days a {
     flex: 1 1 0;
     min-height: 44px;
-    display: grid;
-    place-items: center;
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-weight: 800;
+    font-size: 0.9375rem;
     text-decoration: none;
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+    color: var(--ink);
+    background: var(--asphalt-2);
+    border: 2px solid var(--line);
+    border-radius: 7px;
+    transition: border-color 120ms ease-out;
   }
-  .days a:hover { border-color: var(--accent); }
-  .days a[aria-current] {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--surface);
-  }
-
-  /* ---- day bands ---- */
-
-  .day {
-    margin-block: 0 2.75rem;
-    border-top: 2px solid var(--ink);
-    padding-top: 1rem;
-    scroll-margin-top: 4.5rem;
+  .days a:hover { border-color: var(--ink-3); }
+  /* Today is marked with a green dot, never an underline or fill that could read as "you are here". */
+  .days a[aria-current]::before {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: #35c27a;
   }
 
-  .timeline { list-style: none; margin: 0; padding: 0; }
+  /* ---------- days ---------- */
 
-  .today-badge {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    background: var(--accent);
-    color: var(--surface);
-  }
+  .day { padding-top: 2.25rem; }
 
   .day-head {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.5rem 1rem;
-    margin-bottom: 1.5rem;
+    gap: 0.25rem 0.75rem;
+    margin-bottom: 0.75rem;
   }
-
   .day-head h2 {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.5rem;
-    letter-spacing: -0.01em;
     margin: 0;
+    font-size: 1.625rem;
+    font-weight: 800;
+    line-height: 1.1;
   }
-
-  .day-stat {
-    font-family: var(--mono);
+  .day-stat { color: var(--ink-2); font-size: 0.9375rem; font-weight: 600; }
+  .today {
     font-size: 0.8125rem;
-    letter-spacing: 0.01em;
-    color: var(--muted);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem 0.1rem;
+    border-radius: 4px;
+    background: var(--green);
+    border: 2px solid #fff;
   }
 
-  /* ---- stops ---- */
+  .timeline { list-style: none; margin: 0; padding: 0; }
 
-  .stop {
+  .row {
     display: grid;
-    grid-template-columns: 5.25rem 1fr;
-    gap: 0 1.25rem;
-    padding: 1.125rem 0;
-    border-bottom: 1px solid var(--rule);
+    grid-template-columns: 4.75rem 1fr;
+    gap: 0 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
   }
-  .stop:last-child { border-bottom: none; }
 
   .rail {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.375rem;
+    gap: 0.4rem;
   }
 
   .time {
-    display: block;
-    font-family: var(--mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--accent);
-    padding-top: 0.15rem;
-  }
-
-  .flag {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 1.0625rem;
+    line-height: 1.2;
     white-space: nowrap;
-    padding: 0.15rem 0.4rem;
-    border-radius: 2px;
-    background: var(--gold);
-    color: var(--surface);
   }
-  .flag.next { background: var(--accent); }
 
-  /* Hard stops: the three times the trip can't slip. Whole row tinted, time in gold. */
-  .stop.hard {
-    background: var(--gold-soft);
-    margin-left: -0.75rem; margin-right: -0.75rem;
-    padding-left: 0.75rem; padding-right: 0.75rem;
-    border-radius: 3px;
-    border-bottom-color: transparent;
+  /* Small service-sign plates naming what kind of stop this is. */
+  .plate {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    padding: 0.3rem 0.4rem 0.2rem;
+    border: 1.5px solid #fff;
+    border-radius: 4px;
+    color: #fff;
+    white-space: nowrap;
   }
-  .stop.hard .time { color: var(--gold); font-size: 1rem; padding-top: 0; }
-  .stop.hard .detail p { color: var(--ink); }
-
-  /* Set by the script during the trip. */
-  .stop.next, .drive.next {
-    box-shadow: inset 0 0 0 1px var(--accent);
-    margin-left: -0.75rem; margin-right: -0.75rem;
-    padding-left: 0.75rem; padding-right: 0.75rem;
-    border-radius: 3px;
-  }
+  .plate.food, .plate.park { background: var(--blue); }
+  .plate.sight { background: var(--brown); }
+  .plate.drive, .plate.car { background: var(--green); }
+  .plate.hard { background: var(--yellow); color: var(--black); border-color: var(--black); }
+  .plate.next { background: #fff; color: var(--black); }
+  .row.hard .plate.next { background: var(--black); color: var(--yellow); border-color: var(--black); }
 
   .detail { min-width: 0; }
 
   .detail h3 {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: 1.125rem;
-    line-height: 1.25;
-    margin: 0 0 0.3rem;
+    margin: 0 0 0.25rem;
+    font-size: 1.1875rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-wrap: balance;
   }
 
   .detail p {
     margin: 0 0 0.5rem;
-    color: var(--muted);
-    font-size: 0.9375rem;
+    color: var(--ink-2);
     max-width: 62ch;
+    text-wrap: pretty;
   }
-  p { text-wrap: pretty; }
   .detail p:last-child { margin-bottom: 0; }
+  .detail p strong { color: var(--ink); }
 
   .meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem 0.75rem;
     align-items: center;
-    margin-top: 0.5rem;
+    gap: 0 0.875rem;
+    margin-top: 0.25rem;
   }
 
   a.map {
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: var(--accent);
+    display: inline-block;
+    padding: 0.55rem 0;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--ink);
     text-decoration: underline;
+    text-decoration-color: var(--ink-3);
     text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    /* taller hit area for thumbs without shifting the line */
-    padding-block: 0.6rem;
-    margin-block: -0.6rem;
-    border-radius: 2px;
-    transition: background-color 120ms ease-out;
+    text-underline-offset: 4px;
+    transition: text-decoration-color 120ms ease-out;
   }
-  a.map:hover { background: var(--accent-soft); text-decoration-thickness: 2px; }
-  .meta { row-gap: 0.75rem; }
-  .drive .leg a.map { padding-block: 0.3rem; margin-block: -0.3rem; }
+  a.map:hover { text-decoration-color: var(--ink); text-decoration-thickness: 2px; }
+  a.map .i { margin-left: 0.25em; }
+  .nw { white-space: nowrap; }
+  .leg a.map { display: inline; padding: 0.3rem 0; }
+
+  .cost {
+    font-weight: 800;
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .cost.free { color: #7fd3a3; }
 
   .tbd {
     display: inline-block;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--gold);
-    border: 1px dashed var(--gold);
-    border-radius: 2px;
-    padding: 0.1rem 0.4rem;
-  }
-
-  .tag {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.45rem;
-    border-radius: 2px;
-    background: var(--surface-2);
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .tag.free { background: var(--accent-soft); color: var(--accent); }
-  .tag.money { background: var(--gold-soft); color: var(--gold); }
-
-  /* ---- drive segments ---- */
-
-  .drive {
-    display: grid;
-    grid-template-columns: 5.25rem 1fr;
-    gap: 0 1.25rem;
-    padding: 0.625rem 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .drive .time { color: var(--muted); font-weight: 400; }
-  .drive .leg {
-    font-size: 0.9375rem;
-    color: var(--muted);
-    min-width: 0;
-  }
-  .drive .leg strong {
-    font-family: var(--mono);
+    margin-top: 0.375rem;
+    font-weight: 800;
     font-size: 0.8125rem;
-    color: var(--ink);
-    font-weight: 700;
+    color: var(--yellow);
+    border: 1.5px dashed var(--yellow);
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem 0.05rem;
   }
 
-  /* ---- callout ---- */
+  /* Drives: quieter rows, route shields in the rail. */
+  .row.drive { padding: 0.75rem 0; }
+  .row.drive .time { color: var(--ink-2); font-weight: 600; font-size: 0.9375rem; }
+  .leg { color: var(--ink-2); max-width: 62ch; text-wrap: pretty; }
+  .leg strong { color: var(--ink); font-weight: 800; }
+  .shields { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 
-  .note {
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    padding: 0.875rem 1rem;
-    margin-block: 1.25rem;
-    font-size: 0.9375rem;
+  .sh {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
   }
-  .note strong {
-    font-family: var(--mono);
+  .sh svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sh b {
+    position: relative;
+    font-weight: 800;
     font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 0.3rem;
+    line-height: 1;
+    padding-top: 0.2rem;
   }
+  .sh.us b { color: var(--black); }
+  .sh.i b { color: #fff; padding-top: 0.45rem; }
 
-  /* ---- costs ---- */
+  /* Hard stops: the yellow panel. */
+  .row.hard {
+    margin: 0.5rem 0;
+    padding: 1rem 0.875rem;
+    background: var(--yellow);
+    color: var(--black);
+    border: 0;
+    border-radius: 10px;
+  }
+  .row.hard + .row { border-top: 0; }
+  .row.hard .detail p, .row.hard .detail p strong, .row.hard a.map, .row.hard .cost { color: var(--black); }
+  .row.hard a.map { text-decoration-color: var(--black); }
 
-  .costs { margin-top: 1rem; }
+  /* Set by the script during the trip. */
+  .row.next:not(.hard) {
+    margin: 0.25rem -0.875rem;
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+    border: 2px solid #fff;
+    border-radius: 10px;
+  }
+  .row.next + .row { border-top: 0; }
+  .row.past { opacity: 0.55; }
+
+  /* ---------- costs ---------- */
+
+  .costs { padding-top: 2.75rem; }
 
   .table-scroll { overflow-x: auto; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9375rem;
-  }
+  table { width: 100%; border-collapse: collapse; }
   caption {
     text-align: left;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-bottom: 0.625rem;
+    color: var(--ink-3);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
   }
   th, td {
     text-align: left;
-    padding: 0.5rem 0.75rem 0.5rem 0;
-    border-bottom: 1px solid var(--rule);
+    padding: 0.625rem 0.75rem 0.625rem 0;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
   }
-  th {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 700;
+  th { font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); border-top: 0; }
+  td:last-child, th:last-child { text-align: right; padding-right: 0; font-weight: 800; white-space: nowrap; }
+  td .sub { display: block; font-size: 0.875rem; color: var(--ink-3); }
+  tfoot td { border-top: 3px solid var(--ink); font-size: 1.125rem; font-weight: 800; padding-top: 0.75rem; }
+
+  .note {
+    margin: 2rem 0 0;
+    padding: 1rem 1.125rem;
+    background: var(--asphalt-2);
+    border-radius: 10px;
+    color: var(--ink-2);
+    max-width: 62ch;
   }
-  td:last-child, th:last-child {
-    text-align: right;
-    padding-right: 0;
-    font-family: var(--mono);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  tfoot td {
-    font-weight: 700;
-    border-bottom: none;
-    border-top: 2px solid var(--ink);
-    padding-top: 0.625rem;
-  }
-  td .sub {
-    display: block;
-    font-size: 0.8125rem;
-    color: var(--muted);
+  .note h3 { margin: 0 0 0.25rem; color: var(--ink); font-size: 1.0625rem; font-weight: 800; }
+  .note p { margin: 0; }
+
+  .end {
+    margin: 3rem 0 0;
+    padding: 1.25rem 0 3rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-size: 0.875rem;
   }
 
-  .book {
-    margin: 0 0 2rem;
-    padding: 1.125rem 1.25rem;
-    background: var(--accent-soft);
-    border: 1px solid var(--accent);
-    border-radius: 3px;
-    font-size: 0.9375rem;
-  }
-  .book h2 {
-    font-family: var(--display);
-    font-size: 1.125rem;
-    margin: 0 0 0.4rem;
-    color: var(--accent);
-  }
-  .book p { margin: 0 0 0.5rem; max-width: 62ch; }
-  .book p:last-child { margin: 0; }
-
-  @media (max-width: 29rem) {
-    .stop, .drive { grid-template-columns: 1fr; gap: 0.3rem; }
-    .rail { flex-direction: row; align-items: center; gap: 0.5rem; }
-    .time { padding-top: 0; }
+  @media (min-width: 40rem) {
+    .row { grid-template-columns: 6rem 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
+    * { transition: none !important; animation: none !important; }
   }
 
-  /* Printed copy for the glovebox: always light, no page splits inside a stop. */
   @media print {
-    :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
-      --bg: #fff; --surface: #fff; --surface-2: #eee; --ink: #000;
-      --muted: #333; --rule: #bbb; --accent: #0c5553; --accent-soft: #fff;
-      --gold: #5c3f0a; --gold-soft: #fff;
-      color-scheme: light;
-    }
+    :root { color-scheme: light; --asphalt: #fff; --asphalt-2: #fff; --line: #bbb; --ink: #000; --ink-2: #222; --ink-3: #444; }
     body { font-size: 11pt; }
-    .wrap { max-width: none; padding: 0; }
-    .stop, .drive, .note, .book, tr { break-inside: avoid; }
-    .day-head { break-after: avoid; }
+    .days, .sign-wrap, .route { display: none; }
+    .row, .note, tr { break-inside: avoid; }
+    .row.hard { border: 2px solid #000; }
+    .row.next:not(.hard) { border: 0; margin: 0; }
+    .row.past { opacity: 1; }
     a.map { text-decoration: none; }
-    .days, .flag.next, .today-badge { display: none; }
-    .stop.hard { border: 1px solid #000; }
-    .stop.next, .drive.next { box-shadow: none; }
+    .tbd, .cost.free { color: #000; border-color: #000; }
+    .earlier { display: none; }
+    .day .row.past { display: grid; }
   }
 </style>
 </head>
 <body>
 
-<main class="wrap">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="s-us" viewBox="0 0 32 32"><path d="M4 2.5h24l-1.2 5c2.6 4.2 2.4 11.4-2.3 15.6C21.8 25.6 19 27.4 16 29c-3-1.6-5.8-3.4-8.5-5.9C2.8 18.9 2.6 11.7 5.2 7.5z" fill="#fff" stroke="#111" stroke-width="1.6"/></symbol>
+  <symbol id="s-i" viewBox="0 0 32 32"><path d="M2.5 3.5c4.5 1.6 9.2 1.2 13.5-1.5 4.3 2.7 9 3.1 13.5 1.5 1.4 8.7.2 15.6-4.4 20-2.6 2.4-5.6 4-9.1 5.5-3.5-1.5-6.5-3.1-9.1-5.5C2.3 19.1 1.1 12.2 2.5 3.5z" fill="#003f87" stroke="#fff" stroke-width="1.6"/><path d="M2.6 3.5c4.5 1.6 9.1 1.2 13.4-1.5 4.3 2.7 8.9 3.1 13.4 1.5l.5 6.2H2.1z" fill="#c8102e"/></symbol>
+  <symbol id="s-ext" viewBox="0 0 16 16"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="s-up" viewBox="0 0 24 24"><path d="M12 21V4m-7 7 7-7 7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="s-phone" viewBox="0 0 24 24"><path d="M6.6 3.5 9 3l1.6 4.4-2 1.4a12 12 0 0 0 6.6 6.6l1.4-2 4.4 1.6-.5 2.4a2.5 2.5 0 0 1-2.6 2C10.5 19 5 13.5 4.6 6.1a2.5 2.5 0 0 1 2-2.6z" fill="currentColor"/></symbol>
+</svg>
 
-  <h1>Chincoteague to Philadelphia</h1>
-  <p class="dates">Tue Nov 3 – Thu Nov 5, 2026</p>
-  <p class="dek">Two driving days up the Delmarva and across the Delaware Valley. Five states and the District, with real stops in each.</p>
+<main>
+  <div class="wrap">
 
-  <ul class="states" aria-label="States on this trip">
-    <li class="done">VA<span class="sr"> (already counted)</span></li>
-    <li>MD</li>
-    <li>DC</li>
-    <li>DE</li>
-    <li>NJ</li>
-    <li>PA</li>
-  </ul>
-  <p class="key-times">Virginia already counted. <strong>Car back by 9:00 a.m. Thursday</strong> for a <strong>noon flight</strong> out of PHL.</p>
+    <header class="masthead">
+      <h1>Chincoteague to Philadelphia</h1>
+      <p class="dates">Tue Nov 3 – Thu Nov 5, 2026</p>
+      <p class="dek">Two driving days up the Delmarva and across the Delaware Valley. Five states and the District, with real stops in each.</p>
+      <ul class="states" aria-label="States on this trip">
+        <li class="done">VA<span class="sr"> (already counted)</span></li>
+        <li>MD</li>
+        <li>DC</li>
+        <li>DE</li>
+        <li>NJ</li>
+        <li>PA</li>
+      </ul>
 
-  <div class="book" id="book">
-    <h2>Book tonight</h2>
-    <p>Two rooms — Baltimore for Tuesday, Philadelphia for Wednesday — and the Old Ebbitt reservation for 5:00 p.m. Tuesday.</p>
-    <p>Everything else on this page works if you improvise. Those three don't.</p>
+      <figure class="route">
+        <svg viewBox="0 0 360 200" role="img" aria-labelledby="route-title">
+          <title id="route-title">Route: Chincoteague, Annapolis, Washington DC, Baltimore, New Castle, Camden, Philadelphia</title>
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M318 176 C 300 150, 250 140, 214 128 L 160 122" stroke="#fff" stroke-width="3"/>
+            <path d="M160 122 L 92 144" stroke="#fff" stroke-width="3"/>
+            <path d="M92 144 L 128 92" stroke="#fff" stroke-width="3"/>
+            <path d="M128 92 L 206 66 L 270 38 L 292 26" stroke="#fff" stroke-width="3" stroke-dasharray="7 5"/>
+          </g>
+          <g font-family="Overpass, sans-serif" font-weight="800" font-size="13" fill="#f4f5f2">
+            <circle cx="318" cy="176" r="6" fill="#ffcc00" stroke="#111" stroke-width="1.5"/>
+            <text x="296" y="196" text-anchor="middle">Chincoteague</text>
+            <circle cx="160" cy="122" r="5" fill="#17191b" stroke="#fff" stroke-width="2.5"/>
+            <text x="170" y="112">Annapolis</text>
+            <circle cx="92" cy="144" r="5" fill="#17191b" stroke="#fff" stroke-width="2.5"/>
+            <text x="86" y="166" text-anchor="middle">DC</text>
+            <circle cx="128" cy="92" r="5" fill="#17191b" stroke="#fff" stroke-width="2.5"/>
+            <text x="120" y="80" text-anchor="end">Baltimore</text>
+            <circle cx="206" cy="66" r="5" fill="#17191b" stroke="#fff" stroke-width="2.5"/>
+            <text x="196" y="56" text-anchor="end">New Castle</text>
+            <circle cx="270" cy="38" r="5" fill="#17191b" stroke="#fff" stroke-width="2.5"/>
+            <text x="276" y="56">Camden</text>
+            <circle cx="292" cy="26" r="6" fill="#ffcc00" stroke="#111" stroke-width="1.5"/>
+            <text x="282" y="18" text-anchor="end">Philadelphia</text>
+          </g>
+          <g font-family="Overpass, sans-serif" font-weight="800" font-size="10.5" text-anchor="middle">
+            <use href="#s-us" x="244" y="134" width="30" height="30"/><text x="259" y="154" fill="#111">13</text>
+            <use href="#s-us" x="108" y="126" width="30" height="30"/><text x="123" y="146" fill="#111">50</text>
+            <use href="#s-i" x="92" y="100" width="30" height="30"/><text x="107" y="122" fill="#fff">95</text>
+            <use href="#s-i" x="156" y="56" width="30" height="30"/><text x="171" y="78" fill="#fff">95</text>
+            <use href="#s-i" x="226" y="30" width="30" height="30"/><text x="241" y="52" fill="#fff" font-size="9.5">295</text>
+          </g>
+        </svg>
+        <figcaption><span>Solid Tue <span class="dot" aria-hidden="true">·</span> Dashed Wed</span><span>Not to scale</span></figcaption>
+      </figure>
+    </header>
+
+    <!-- The sign: filled from the timeline by the script; without JS it shows the first stop. -->
+    <section class="sign-wrap" aria-labelledby="sign-h" aria-live="polite">
+      <div class="sign" id="sign" data-kind="food">
+        <div class="tab"><span id="sign-time">6:30 AM</span><small id="sign-when">TUE</small></div>
+        <h2 id="sign-h"><span class="sr" id="sign-label">First stop, food: </span><span id="sign-title">Breakfast — Mr. Baldy's Family Restaurant</span></h2>
+        <p class="sub" id="sign-sub">3441 Ridge Rd, Chincoteague VA</p>
+        <div class="actions">
+          <a class="btn" id="sign-go" href="https://www.google.com/maps/search/?api=1&amp;query=Mr.%20Baldy%27s%20Family%20Restaurant%2C%203441%20Ridge%20Rd%2C%20Chincoteague%2C%20VA%2023336"><svg class="i" aria-hidden="true"><use href="#s-up"/></svg>Navigate</a>
+          <a class="btn ghost" id="sign-call" href="#" hidden><svg class="i" aria-hidden="true"><use href="#s-phone"/></svg>Call</a>
+        </div>
+        <p class="then" id="sign-then"><b>Then 7:15</b><span>Drive 2h 45m</span></p>
+      </div>
+      <div class="plaque" id="sign-plaque" hidden></div>
+    </section>
+
+    <div class="book" id="book">
+      <h2>Book tonight</h2>
+      <p>Two rooms — Baltimore for Tuesday, Philadelphia for Wednesday — and the Old Ebbitt reservation for 5:00 p.m. Tuesday.</p>
+      <p>Everything else on this page works if you improvise. Those three don't.</p>
+    </div>
+
+    <nav class="days" aria-label="Jump to a day">
+      <a href="#tue">Tue</a>
+      <a href="#wed">Wed</a>
+      <a href="#thu">Thu</a>
+      <a href="#costs">Costs</a>
+    </nav>
+
+    <!-- ===== TUESDAY ===== -->
+    <section class="day" id="tue" aria-labelledby="tue-h">
+      <div class="day-head">
+        <h2 id="tue-h">Tuesday, November 3</h2>
+        <span class="day-stat">Chincoteague → Annapolis → DC → Baltimore <span class="dot" aria-hidden="true">·</span> 265 mi</span>
+      </div>
+      <ol class="timeline">
+
+        <li class="row stop" data-kind="food">
+          <div class="rail"><time class="time" datetime="2026-11-03T06:30">6:30 AM</time><span class="plate food">FOOD</span></div>
+          <div class="detail">
+            <h3><span class="sr">6:30 AM: </span>Breakfast — Mr. Baldy's Family Restaurant</h3>
+            <p>Opens at 6 a.m., the only real kitchen running that early on the island. Big portions, island prices.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Mr.%20Baldy%27s%20Family%20Restaurant%2C%203441%20Ridge%20Rd%2C%20Chincoteague%2C%20VA%2023336">3441 Ridge Rd, Chincoteague <span class="nw">VA<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost">~$25</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row drive" data-kind="drive">
+          <div class="rail"><time class="time" datetime="2026-11-03T07:15">7:15 AM</time><span class="shields"><span class="sh us"><svg aria-hidden="true"><use href="#s-us"/></svg><b>13</b></span><span class="sh us"><svg aria-hidden="true"><use href="#s-us"/></svg><b>50</b></span></span></div>
+          <div class="leg"><strong>Drive 2h 45m</strong> — US-13 north up the Delmarva, then US-50 west across the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Chesapeake%20Bay%20Bridge%2C%20Stevensville%2C%20MD">Chesapeake Bay <span class="nw">Bridge<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>. Westbound is free; the toll is eastbound only.</div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-03T10:00">10:00 AM</time><span class="plate sight">SIGHT</span></div>
+          <div class="detail">
+            <h3><span class="sr">10:00 AM: </span>Maryland State House, Annapolis</h3>
+            <p>Oldest state capitol still in legislative use, and the room where Washington resigned his commission. Largest wooden dome in the country. Bring ID to get in.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Maryland%20State%20House%2C%20100%20State%20Cir%2C%20Annapolis%2C%20MD%2021401">100 State Cir, Annapolis <span class="nw">MD<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost free">Free <span class="dot" aria-hidden="true">·</span> 9–5</span>
+              <span class="cost">$6 parking</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-03T10:50">10:50 AM</time><span class="plate sight">WALK</span></div>
+          <div class="detail">
+            <h3><span class="sr">10:50 AM: </span>Walk down Main Street to the harbor</h3>
+            <p>Ten minutes downhill from the State House to City Dock. Naval Academy gate is right there if you want to look.</p>
+            <div class="meta"><span class="cost free">Free</span></div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="food">
+          <div class="rail"><time class="time" datetime="2026-11-03T11:30">11:30 AM</time><span class="plate food">FOOD</span></div>
+          <div class="detail">
+            <h3><span class="sr">11:30 AM: </span>Lunch — Boatyard Bar &amp; Grill</h3>
+            <p>Jumbo lump crab cakes are the reason to go. Usually a 40-minute wait; midweek in November there won't be one.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Boatyard%20Bar%20%26%20Grill%2C%20400%20Fourth%20St%2C%20Annapolis%2C%20MD%2021403">400 Fourth St, Annapolis <span class="nw">MD<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost">~$70</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row drive" data-kind="drive">
+          <div class="rail"><time class="time" datetime="2026-11-03T13:00">1:00 PM</time><span class="shields"><span class="sh us"><svg aria-hidden="true"><use href="#s-us"/></svg><b>50</b></span></span></div>
+          <div class="leg"><strong>Drive 45m</strong> — US-50 west into DC. Leaving by 1:00 beats the afternoon wall on this road.</div>
+        </li>
+
+        <li class="row stop" data-kind="park">
+          <div class="rail"><time class="time" datetime="2026-11-03T14:00">2:00 PM</time><span class="plate park">PARK</span></div>
+          <div class="detail">
+            <h3><span class="sr">2:00 PM: </span>Park once, near the Mall</h3>
+            <p>One garage in Penn Quarter or near the Mall. Leave the car there through dinner; everything until 7:00 is on foot.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=parking%20garage%20Penn%20Quarter%2C%20Washington%2C%20DC">Penn Quarter <span class="nw">garages<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost">$25–40</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-03T14:15">2:15 PM</time><span class="plate sight">MUSEUM</span></div>
+          <div class="detail">
+            <h3><span class="sr">2:15 PM: </span>One Smithsonian — pick a single museum</h3>
+            <p>Air and Space or American History. All free, all close at 5:30. Two in an afternoon means seeing neither.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Air%20and%20Space%20Museum%2C%206th%20St%20SW%20%26%20Independence%20Ave%2C%20Washington%2C%20DC%2020560">Air and <span class="nw">Space<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Museum%20of%20American%20History%2C%201300%20Constitution%20Ave%20NW%2C%20Washington%2C%20DC%2020560">American <span class="nw">History<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost free">Free</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop hard" data-kind="food" data-hard="Reserved">
+          <div class="rail"><time class="time" datetime="2026-11-03T17:00">5:00 PM</time><span class="plate hard">RESERVED</span></div>
+          <div class="detail">
+            <h3><span class="sr">5:00 PM, reserved: </span>Dinner — Old Ebbitt Grill</h3>
+            <p>Washington's oldest saloon, open since 1856, directly across from the White House. Dark wood, antique fixtures, raw bar. <strong>Reserve this one</strong> — it fills every night.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Old%20Ebbitt%20Grill%2C%20675%2015th%20St%20NW%2C%20Washington%2C%20DC%2020005">675 15th St NW, Washington <span class="nw">DC<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <a class="map" href="tel:+12023474800">Call 202-347-4800</a>
+              <span class="cost">~$110</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-03T19:00">7:00 PM</time><span class="plate sight">SIGHT</span></div>
+          <div class="detail">
+            <h3><span class="sr">7:00 PM: </span>The monuments after dark</h3>
+            <p>Lincoln, Vietnam, Korean War, WWII, MLK, Jefferson. All outdoors, all lit, all open around the clock, and nearly empty on a November weeknight. This is the best thing on the whole route.</p>
+            <p>Lincoln to Jefferson and back is about three miles on foot. If the legs or the weather give out, fetch the car and drive between them instead: there's free street parking along Ohio Drive by the Tidal Basin and near the Lincoln after 6:30 p.m.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Lincoln%20Memorial%2C%202%20Lincoln%20Memorial%20Cir%20NW%2C%20Washington%2C%20DC%2020037">Lincoln <span class="nw">Memorial<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Thomas%20Jefferson%20Memorial%2C%2016%20E%20Basin%20Dr%20SW%2C%20Washington%2C%20DC%2020242">Jefferson <span class="nw">Memorial<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ohio%20Drive%20SW%2C%20Washington%2C%20DC">Ohio Dr <span class="nw">parking<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost free">Free <span class="dot" aria-hidden="true">·</span> 24 hrs</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row drive" data-kind="drive">
+          <div class="rail"><time class="time" datetime="2026-11-03T21:45">9:45 PM</time><span class="shields"><span class="sh i"><svg aria-hidden="true"><use href="#s-i"/></svg><b>95</b></span></span></div>
+          <div class="leg"><strong>Drive 1h</strong> — I-95 north to Baltimore. Sleep in Fells Point or Inner Harbor. Cheaper than DC, and it takes 45 minutes off tomorrow.<br><span class="tbd">Hotel: not booked yet</span></div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== WEDNESDAY ===== -->
+    <section class="day" id="wed" aria-labelledby="wed-h">
+      <div class="day-head">
+        <h2 id="wed-h">Wednesday, November 4</h2>
+        <span class="day-stat">Baltimore → New Castle → Camden → Philadelphia <span class="dot" aria-hidden="true">·</span> 135 mi</span>
+      </div>
+      <ol class="timeline">
+
+        <li class="row stop" data-kind="food">
+          <div class="rail"><time class="time" datetime="2026-11-04T08:00">8:00 AM</time><span class="plate food">FOOD</span></div>
+          <div class="detail">
+            <h3><span class="sr">8:00 AM: </span>Breakfast — Blue Moon Cafe, Fells Point</h3>
+            <p>Opens at 7. The Cap'n Crunch French toast is what people drive in for. Small room, so go early rather than at nine.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Blue%20Moon%20Cafe%2C%201621%20Aliceanna%20St%2C%20Baltimore%2C%20MD%2021231">1621 Aliceanna St, Baltimore <span class="nw">MD<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost">~$40</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row drive" data-kind="drive">
+          <div class="rail"><time class="time" datetime="2026-11-04T09:30">9:30 AM</time><span class="shields"><span class="sh i"><svg aria-hidden="true"><use href="#s-i"/></svg><b>95</b></span></span></div>
+          <div class="leg"><strong>Drive 2h</strong> — I-95 north. Northbound out of the DC–Baltimore corridor clears up by 9:30, which is why breakfast is unhurried.</div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-04T11:45">11:45 AM</time><span class="plate sight">SIGHT</span></div>
+          <div class="detail">
+            <h3><span class="sr">11:45 AM: </span>Historic New Castle, Delaware</h3>
+            <p>Cobblestone Delaware Street, the Green, and Battery Park along the river. A colonial river town that stayed largely intact. Forty-five minutes on foot covers it, and it beats downtown Wilmington by a mile.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Street%2C%20New%20Castle%2C%20DE%2019720">Delaware St, New Castle <span class="nw">DE<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battery%20Park%2C%20New%20Castle%2C%20DE%2019720">Battery <span class="nw">Park<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost free">Free</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="food">
+          <div class="rail"><time class="time" datetime="2026-11-04T12:30">12:30 PM</time><span class="plate food">FOOD</span></div>
+          <div class="detail">
+            <h3><span class="sr">12:30 PM: </span>Lunch — Jessop's Tavern</h3>
+            <p>Colonial tavern on the cobblestones, creaking wood floors, Belgian beer list, and a shepherd's pie that arrives the size of a brick.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Jessop%27s%20Tavern%2C%20114%20Delaware%20St%2C%20New%20Castle%2C%20DE%2019720">114 Delaware St, New Castle <span class="nw">DE<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost">~$60</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row drive" data-kind="drive">
+          <div class="rail"><time class="time" datetime="2026-11-04T14:00">2:00 PM</time><span class="shields"><span class="sh i"><svg aria-hidden="true"><use href="#s-i"/></svg><b>295</b></span></span></div>
+          <div class="leg"><strong>Drive 50m</strong> — east over the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Memorial%20Bridge">Delaware Memorial <span class="nw">Bridge<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a> ($5), then NJ-295 north. Forty miles through New Jersey on the way, with no detour at all. That puts you in Camden around 2:50; the spare 40 minutes absorbs bridge traffic.</div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-04T15:30">3:30 PM</time><span class="plate sight">SIGHT</span></div>
+          <div class="detail">
+            <h3><span class="sr">3:30 PM: </span>Camden waterfront, New Jersey</h3>
+            <p>Battleship New Jersey is docked here, and the view back across the Delaware at the Philadelphia skyline is the actual reason to stop. Late afternoon light does the work.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battleship%20New%20Jersey%20Museum%2C%2062%20Battleship%20Pl%2C%20Camden%2C%20NJ%2008103">62 Battleship Pl, Camden <span class="nw">NJ<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost free">Free <span class="dot" aria-hidden="true">·</span> waterfront</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row drive" data-kind="drive">
+          <div class="rail"><time class="time" datetime="2026-11-04T17:00">5:00 PM</time><span class="plate drive">BRIDGE</span></div>
+          <div class="leg"><strong>Drive 20m</strong> — <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Benjamin%20Franklin%20Bridge">Ben Franklin <span class="nw">Bridge<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a> ($5) into Old City. Check in, drop the bags.<br><span class="tbd">Hotel: not booked yet</span></div>
+        </li>
+
+        <li class="row stop" data-kind="food">
+          <div class="rail"><time class="time" datetime="2026-11-04T19:00">7:00 PM</time><span class="plate food">FOOD</span></div>
+          <div class="detail">
+            <h3><span class="sr">7:00 PM: </span>Dinner — The Plough &amp; the Stars</h3>
+            <p>Old City Irish pub at Chestnut and 2nd, in an old bank building. Open till 2 a.m., so there's no rush getting there.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=The%20Plough%20and%20the%20Stars%2C%20123%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">123 Chestnut St, Philadelphia <span class="nw">PA<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost">~$75</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="sight">
+          <div class="rail"><time class="time" datetime="2026-11-04T21:00">9:00 PM</time><span class="plate sight">SIGHT</span></div>
+          <div class="detail">
+            <h3><span class="sr">9:00 PM: </span>Independence Hall and the Liberty Bell — tonight, not tomorrow</h3>
+            <p>Both lit after dark and both a short walk from dinner. The Liberty Bell Center is glass-walled, so the bell is visible from the sidewalk at any hour, and Independence Hall's exterior is lit too.</p>
+            <p>Do it now. Thursday morning does not exist, and the timed interior tickets wouldn't fit a forty-minute window anyway.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bell%20Center%2C%20526%20Market%20St%2C%20Philadelphia%2C%20PA%2019106">Liberty Bell <span class="nw">Center<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Independence%20Hall%2C%20520%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">Independence <span class="nw">Hall<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+              <span class="cost free">Free</span>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== THURSDAY ===== -->
+    <section class="day" id="thu" aria-labelledby="thu-h">
+      <div class="day-head">
+        <h2 id="thu-h">Thursday, November 5</h2>
+        <span class="day-stat">Philadelphia → PHL <span class="dot" aria-hidden="true">·</span> 12 mi <span class="dot" aria-hidden="true">·</span> wheels up at noon</span>
+      </div>
+      <ol class="timeline">
+
+        <li class="row stop" data-kind="food">
+          <div class="rail"><time class="time" datetime="2026-11-05T07:30">7:30 AM</time><span class="plate food">COFFEE</span></div>
+          <div class="detail">
+            <h3><span class="sr">7:30 AM: </span>Coffee near the hotel</h3>
+            <p>Something quick. Nothing with a wait.</p>
+            <div class="meta"><span class="cost">~$20</span></div>
+          </div>
+        </li>
+
+        <li class="row stop" data-kind="car">
+          <div class="rail"><time class="time" datetime="2026-11-05T08:15">8:15 AM</time><span class="plate car">GAS</span></div>
+          <div class="detail">
+            <h3><span class="sr">8:15 AM: </span>Leave for the airport — fuel up on the way</h3>
+            <p>Twenty minutes clear, forty in traffic. Fill the tank before the return or Budget charges their own rate for it.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Philadelphia%20International%20Airport%2C%208000%20Essington%20Ave%2C%20Philadelphia%2C%20PA%2019153">PHL <span class="dot" aria-hidden="true">·</span> 8000 Essington <span class="nw">Ave<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop hard" data-kind="car" data-hard="Hard stop">
+          <div class="rail"><time class="time" datetime="2026-11-05T09:00">9:00 AM</time><span class="plate hard">HARD STOP</span></div>
+          <div class="detail">
+            <h3><span class="sr">9:00 AM, hard stop: </span>Return the car, then the shuttle to the terminal</h3>
+            <p>PHL's rental return plus shuttle eats more time than anyone plans for. Nine o'clock is the number, not a suggestion. Follow the Rental Car Return signs; your Budget confirmation has the exact drop-off.</p>
+            <div class="meta">
+              <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Budget%20Car%20Rental%2C%20Philadelphia%20International%20Airport">Budget return at <span class="nw">PHL<svg class="i" aria-hidden="true"><use href="#s-ext"/></svg></span><span class="sr"> (map)</span></a>
+            </div>
+          </div>
+        </li>
+
+        <li class="row stop hard" data-kind="car" data-hard="Hard stop">
+          <div class="rail"><time class="time" datetime="2026-11-05T12:00">12:00 PM</time><span class="plate hard">HARD STOP</span></div>
+          <div class="detail">
+            <h3><span class="sr">12:00 PM, hard stop: </span>Frontier departs</h3>
+            <p>Check the terminal and gate in the Frontier app the night before.</p>
+            <p>Frontier has no interline agreements. If this flight cancels they cannot put you on another airline — you wait for their next one. Rebook in the app right away, then compare one-way fares on other airlines; a new ticket can beat a day's wait.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== COSTS ===== -->
+    <section class="costs" id="costs" aria-labelledby="costs-h">
+      <div class="day-head">
+        <h2 id="costs-h">What it runs</h2>
+        <span class="day-stat">Two people <span class="dot" aria-hidden="true">·</span> on top of flights and the rental</span>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <caption>Estimates, Nov 3–5</caption>
+          <thead>
+            <tr><th scope="col">Item</th><th scope="col">Est.</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Hotel — Baltimore, Tue<span class="sub">Fells Point / Inner Harbor, midweek November</span></td><td>$110–160</td></tr>
+            <tr><td>Hotel — Philadelphia, Wed<span class="sub">Old City or Center City</span></td><td>$150–220</td></tr>
+            <tr><td>Food, three days<span class="sub">Six sit-down meals plus coffee</span></td><td>$400</td></tr>
+            <tr><td>Parking<span class="sub">Annapolis $6, DC garage $25–40, Philly overnight $45–60</span></td><td>$105</td></tr>
+            <tr><td>Gas<span class="sub">About 410 miles</span></td><td>$55</td></tr>
+            <tr><td>Tolls<span class="sub">Delaware Memorial $5, Ben Franklin $5</span></td><td>$10</td></tr>
+            <tr><td>Museums and monuments<span class="sub">Smithsonians, State House, all memorials</span></td><td>$0</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Total</td><td>$830–950</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="note">
+        <h3>Why DC comes first</h3>
+        <p>Washington sits west of the Chesapeake; Delaware, New Jersey and Philadelphia all sit on one line northeast of it. Hitting Delaware before DC would cost four hours of backtracking, and running DC as a day trip from Philly would cost five. The order is set by the map, not by preference.</p>
+      </div>
+
+      <p class="end">Map links open Google Maps. Times are Eastern.</p>
+    </section>
+
   </div>
-
-  <nav class="days" aria-label="Jump to a day">
-    <a href="#tue">Tue</a>
-    <a href="#wed">Wed</a>
-    <a href="#thu">Thu</a>
-    <a href="#costs">Costs</a>
-  </nav>
-
-  <!-- ===== TUESDAY ===== -->
-  <section class="day" id="tue">
-    <div class="day-head">
-      <h2>Tuesday, November 3</h2>
-      <span class="day-stat">Chincoteague → Annapolis → DC → Baltimore · 265 mi</span>
-    </div>
-    <ol class="timeline">
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T06:30">6:30 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">6:30 AM: </span>Breakfast — Mr. Baldy's Family Restaurant</h3>
-        <p>Opens at 6 a.m., the only real kitchen running that early on the island. Big portions, island prices.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Mr.%20Baldy%27s%20Family%20Restaurant%2C%203441%20Ridge%20Rd%2C%20Chincoteague%2C%20VA%2023336">3441 Ridge Rd, Chincoteague VA<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag money">~$25</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="drive">
-      <div class="rail"><time class="time" datetime="2026-11-03T07:15">7:15 AM</time></div>
-      <div class="leg"><strong>Drive 2h 45m</strong> — US-13 north up the Delmarva, then US-50 west across the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Chesapeake%20Bay%20Bridge%2C%20Stevensville%2C%20MD">Chesapeake Bay Bridge<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>. Westbound is free; the toll is eastbound only.</div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T10:00">10:00 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">10:00 AM: </span>Maryland State House, Annapolis</h3>
-        <p>Oldest state capitol still in legislative use, and the room where Washington resigned his commission. Largest wooden dome in the country. Bring ID to get in.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Maryland%20State%20House%2C%20100%20State%20Cir%2C%20Annapolis%2C%20MD%2021401">100 State Cir, Annapolis MD<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag free">Free · 9–5</span>
-          <span class="tag money">$6 parking</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T10:50">10:50 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">10:50 AM: </span>Walk down Main Street to the harbor</h3>
-        <p>Ten minutes downhill from the State House to City Dock. Naval Academy gate is right there if you want to look.</p>
-        <div class="meta">
-          <span class="tag free">Free</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T11:30">11:30 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">11:30 AM: </span>Lunch — Boatyard Bar &amp; Grill</h3>
-        <p>Jumbo lump crab cakes are the reason to go. Usually a 40-minute wait; midweek in November there won't be one.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Boatyard%20Bar%20%26%20Grill%2C%20400%20Fourth%20St%2C%20Annapolis%2C%20MD%2021403">400 Fourth St, Annapolis MD<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag money">~$70</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="drive">
-      <div class="rail"><time class="time" datetime="2026-11-03T13:00">1:00 PM</time></div>
-      <div class="leg"><strong>Drive 45m</strong> — US-50 west into DC. Leaving by 1:00 beats the afternoon wall on this road.</div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T14:00">2:00 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">2:00 PM: </span>Park once, near the Mall</h3>
-        <p>One garage in Penn Quarter or near the Mall. Leave the car there through dinner; everything until 7:00 is on foot.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=parking%20garage%20Penn%20Quarter%2C%20Washington%2C%20DC">Penn Quarter garages<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag money">$25–40</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T14:15">2:15 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">2:15 PM: </span>One Smithsonian — pick a single museum</h3>
-        <p>Air and Space or American History. All free, all close at 5:30. Two in an afternoon means seeing neither.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Air%20and%20Space%20Museum%2C%206th%20St%20SW%20%26%20Independence%20Ave%2C%20Washington%2C%20DC%2020560">Air and Space<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=National%20Museum%20of%20American%20History%2C%201300%20Constitution%20Ave%20NW%2C%20Washington%2C%20DC%2020560">American History<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag free">Free</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop hard">
-      <div class="rail"><time class="time" datetime="2026-11-03T17:00">5:00 PM</time><span class="flag">Reserved</span></div>
-      <div class="detail">
-        <h3><span class="sr">5:00 PM, reserved: </span>Dinner — Old Ebbitt Grill</h3>
-        <p>Washington's oldest saloon, open since 1856, directly across from the White House. Dark wood, antique fixtures, raw bar. <strong>Reserve this one</strong> — it fills every night.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Old%20Ebbitt%20Grill%2C%20675%2015th%20St%20NW%2C%20Washington%2C%20DC%2020005">675 15th St NW, Washington DC<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <a class="map" href="tel:+12023474800">Call 202-347-4800</a>
-          <span class="tag money">~$110</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-03T19:00">7:00 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">7:00 PM: </span>The monuments after dark</h3>
-        <p>Lincoln, Vietnam, Korean War, WWII, MLK, Jefferson. All outdoors, all lit, all open around the clock, and nearly empty on a November weeknight. This is the best thing on the whole route.</p>
-        <p>Lincoln to Jefferson and back is about three miles on foot. If the legs or the weather give out, fetch the car and drive between them instead: there's free street parking along Ohio Drive by the Tidal Basin and near the Lincoln after 6:30 p.m.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Lincoln%20Memorial%2C%202%20Lincoln%20Memorial%20Cir%20NW%2C%20Washington%2C%20DC%2020037">Lincoln Memorial<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Thomas%20Jefferson%20Memorial%2C%2016%20E%20Basin%20Dr%20SW%2C%20Washington%2C%20DC%2020242">Jefferson Memorial<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ohio%20Drive%20SW%2C%20Washington%2C%20DC">Ohio Dr parking<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag free">Free · 24 hrs</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="drive">
-      <div class="rail"><time class="time" datetime="2026-11-03T21:45">9:45 PM</time></div>
-      <div class="leg"><strong>Drive 1h</strong> — I-95 north to Baltimore. Sleep in Fells Point or Inner Harbor. Cheaper than DC, and it takes 45 minutes off tomorrow. <span class="tbd">Hotel: not booked yet</span></div>
-    </li>
-    </ol>
-  </section>
-
-  <!-- ===== WEDNESDAY ===== -->
-  <section class="day" id="wed">
-    <div class="day-head">
-      <h2>Wednesday, November 4</h2>
-      <span class="day-stat">Baltimore → New Castle → Camden → Philadelphia · 135 mi</span>
-    </div>
-    <ol class="timeline">
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-04T08:00">8:00 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">8:00 AM: </span>Breakfast — Blue Moon Cafe, Fells Point</h3>
-        <p>Opens at 7. The Cap'n Crunch French toast is what people drive in for. Small room, so go early rather than at nine.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Blue%20Moon%20Cafe%2C%201621%20Aliceanna%20St%2C%20Baltimore%2C%20MD%2021231">1621 Aliceanna St, Baltimore MD<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag money">~$40</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="drive">
-      <div class="rail"><time class="time" datetime="2026-11-04T09:30">9:30 AM</time></div>
-      <div class="leg"><strong>Drive 2h</strong> — I-95 north. Northbound out of the DC–Baltimore corridor clears up by 9:30, which is why breakfast is unhurried.</div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-04T11:45">11:45 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">11:45 AM: </span>Historic New Castle, Delaware</h3>
-        <p>Cobblestone Delaware Street, the Green, and Battery Park along the river. A colonial river town that stayed largely intact. Forty-five minutes on foot covers it, and it beats downtown Wilmington by a mile.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Street%2C%20New%20Castle%2C%20DE%2019720">Delaware St, New Castle DE<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battery%20Park%2C%20New%20Castle%2C%20DE%2019720">Battery Park<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag free">Free</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-04T12:30">12:30 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">12:30 PM: </span>Lunch — Jessop's Tavern</h3>
-        <p>Colonial tavern on the cobblestones, creaking wood floors, Belgian beer list, and a shepherd's pie that arrives the size of a brick.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Jessop%27s%20Tavern%2C%20114%20Delaware%20St%2C%20New%20Castle%2C%20DE%2019720">114 Delaware St, New Castle DE<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag money">~$60</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="drive">
-      <div class="rail"><time class="time" datetime="2026-11-04T14:00">2:00 PM</time></div>
-      <div class="leg"><strong>Drive 50m</strong> — east over the <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Delaware%20Memorial%20Bridge">Delaware Memorial Bridge<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a> ($5), then NJ-295 north. Forty miles through New Jersey on the way, with no detour at all. That puts you in Camden around 2:50; the spare 40 minutes absorbs bridge traffic.</div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-04T15:30">3:30 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">3:30 PM: </span>Camden waterfront, New Jersey</h3>
-        <p>Battleship New Jersey is docked here, and the view back across the Delaware at the Philadelphia skyline is the actual reason to stop. Late afternoon light does the work.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Battleship%20New%20Jersey%20Museum%2C%2062%20Battleship%20Pl%2C%20Camden%2C%20NJ%2008103">62 Battleship Pl, Camden NJ<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag free">Free · waterfront</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="drive">
-      <div class="rail"><time class="time" datetime="2026-11-04T17:00">5:00 PM</time></div>
-      <div class="leg"><strong>Drive 20m</strong> — <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Benjamin%20Franklin%20Bridge">Ben Franklin Bridge<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a> ($5) into Old City. Check in, drop the bags. <span class="tbd">Hotel: not booked yet</span></div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-04T19:00">7:00 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">7:00 PM: </span>Dinner — The Plough &amp; the Stars</h3>
-        <p>Old City Irish pub at Chestnut and 2nd, in an old bank building. Open till 2 a.m., so there's no rush getting there.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=The%20Plough%20and%20the%20Stars%2C%20123%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">123 Chestnut St, Philadelphia PA<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag money">~$75</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-04T21:00">9:00 PM</time></div>
-      <div class="detail">
-        <h3><span class="sr">9:00 PM: </span>Independence Hall and the Liberty Bell — tonight, not tomorrow</h3>
-        <p>Both lit after dark and both a short walk from dinner. The Liberty Bell Center is glass-walled, so the bell is visible from the sidewalk at any hour, and Independence Hall's exterior is lit too.</p>
-        <p>Do it now. Thursday morning does not exist, and the timed interior tickets wouldn't fit a forty-minute window anyway.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bell%20Center%2C%20526%20Market%20St%2C%20Philadelphia%2C%20PA%2019106">Liberty Bell Center<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Independence%20Hall%2C%20520%20Chestnut%20St%2C%20Philadelphia%2C%20PA%2019106">Independence Hall<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-          <span class="tag free">Free</span>
-        </div>
-      </div>
-    </li>
-    </ol>
-  </section>
-
-  <!-- ===== THURSDAY ===== -->
-  <section class="day" id="thu">
-    <div class="day-head">
-      <h2>Thursday, November 5</h2>
-      <span class="day-stat">Philadelphia → PHL · 12 mi · wheels up at noon</span>
-    </div>
-    <ol class="timeline">
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-05T07:30">7:30 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">7:30 AM: </span>Coffee near the hotel</h3>
-        <p>Something quick. Nothing with a wait.</p>
-        <div class="meta">
-          <span class="tag money">~$20</span>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop">
-      <div class="rail"><time class="time" datetime="2026-11-05T08:15">8:15 AM</time></div>
-      <div class="detail">
-        <h3><span class="sr">8:15 AM: </span>Leave for the airport — fuel up on the way</h3>
-        <p>Twenty minutes clear, forty in traffic. Fill the tank before the return or Budget charges their own rate for it.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Philadelphia%20International%20Airport%2C%208000%20Essington%20Ave%2C%20Philadelphia%2C%20PA%2019153">PHL · 8000 Essington Ave<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop hard">
-      <div class="rail"><time class="time" datetime="2026-11-05T09:00">9:00 AM</time><span class="flag">Hard stop</span></div>
-      <div class="detail">
-        <h3><span class="sr">9:00 AM, hard stop: </span>Return the car, then the shuttle to the terminal</h3>
-        <p>PHL's rental return plus shuttle eats more time than anyone plans for. Nine o'clock is the number, not a suggestion. Follow the Rental Car Return signs; your Budget confirmation has the exact drop-off.</p>
-        <div class="meta">
-          <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Budget%20Car%20Rental%2C%20Philadelphia%20International%20Airport">Budget return at PHL<span aria-hidden="true"> ↗</span><span class="sr"> (map)</span></a>
-        </div>
-      </div>
-    </li>
-
-    <li class="stop hard">
-      <div class="rail"><time class="time" datetime="2026-11-05T12:00">12:00 PM</time><span class="flag">Hard stop</span></div>
-      <div class="detail">
-        <h3><span class="sr">12:00 PM, hard stop: </span>Frontier departs</h3>
-        <p>Check the terminal and gate in the Frontier app the night before.</p>
-        <p>Frontier has no interline agreements. If this flight cancels they cannot put you on another airline — you wait for their next one. Rebook in the app right away, then compare one-way fares on other airlines; a new ticket can beat a day's wait.</p>
-      </div>
-    </li>
-    </ol>
-  </section>
-
-  <!-- ===== COSTS ===== -->
-  <section class="day costs" id="costs">
-    <div class="day-head">
-      <h2>What it runs</h2>
-      <span class="day-stat">Two people · on top of flights and the rental</span>
-    </div>
-
-    <div class="table-scroll">
-      <table>
-        <caption>Estimates, Nov 3–5</caption>
-        <thead>
-          <tr><th scope="col">Item</th><th scope="col">Est.</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Hotel — Baltimore, Tue
-              <span class="sub">Fells Point / Inner Harbor, midweek November</span>
-            </td>
-            <td>$110–160</td>
-          </tr>
-          <tr>
-            <td>Hotel — Philadelphia, Wed
-              <span class="sub">Old City or Center City</span>
-            </td>
-            <td>$150–220</td>
-          </tr>
-          <tr>
-            <td>Food, three days
-              <span class="sub">Six sit-down meals plus coffee</span>
-            </td>
-            <td>$400</td>
-          </tr>
-          <tr>
-            <td>Parking
-              <span class="sub">Annapolis $6, DC garage $25–40, Philly overnight $45–60</span>
-            </td>
-            <td>$105</td>
-          </tr>
-          <tr>
-            <td>Gas
-              <span class="sub">About 410 miles</span>
-            </td>
-            <td>$55</td>
-          </tr>
-          <tr>
-            <td>Tolls
-              <span class="sub">Delaware Memorial $5, Ben Franklin $5</span>
-            </td>
-            <td>$10</td>
-          </tr>
-          <tr>
-            <td>Museums and monuments
-              <span class="sub">Smithsonians, State House, all memorials</span>
-            </td>
-            <td>$0</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr><td>Total</td><td>$830–950</td></tr>
-        </tfoot>
-      </table>
-    </div>
-
-    <div class="note">
-      <strong>Why DC comes first</strong>
-      Washington sits west of the Chesapeake; Delaware, New Jersey and Philadelphia all sit on one line northeast of it. Hitting Delaware before DC would cost four hours of backtracking, and running DC as a day trip from Philly would cost five. The order is set by the map, not by preference.
-    </div>
-  </section>
-
 </main>
 
 <script>
-  // During the trip: mark today in the jump links, flag the next stop, and retire "Book tonight".
-  // Times are read as the phone's local time (the whole route is Eastern). Without JS the page is unchanged.
+  // Turns the timeline into the overhead sign: finds the next row by the phone's clock,
+  // copies its time, name, map and phone links onto the sign, and keeps it current.
+  // Without JS the sign shows the first stop and the page reads top to bottom.
   (function () {
     var days = { "2026-11-03": "tue", "2026-11-04": "wed", "2026-11-05": "thu" };
-    var stamp = function (d) {
+    var dayShort = { "2026-11-03": "TUE", "2026-11-04": "WED", "2026-11-05": "THU" };
+    var labels = { food: "Food", sight: "Sight", park: "Parking", drive: "Drive", car: "Car and airport" };
+    var rows = Array.prototype.slice.call(document.querySelectorAll(".timeline .row"));
+    var $ = function (id) { return document.getElementById(id); };
+
+    function stamp(d) {
       return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-    };
+    }
+    function timeOf(row) { return row.querySelector("time"); }
+    function at(row) { return new Date(timeOf(row).getAttribute("datetime")); }
+    function clean(el, drop) {
+      var c = el.cloneNode(true);
+      c.querySelectorAll(drop).forEach(function (s) { s.remove(); });
+      return c.textContent.trim();
+    }
+    function title(row) {
+      var h = row.querySelector("h3");
+      return h ? clean(h, ".sr") : row.querySelector(".leg strong").textContent.trim();
+    }
+    function sub(row) {
+      var leg = row.querySelector(".leg");
+      if (leg) return clean(leg, "strong, .sr, .tbd, br, svg").replace(/^—\s*/, "");
+      var link = row.querySelector('a.map[href^="https"]');
+      if (link) return clean(link, ".sr, svg");
+      var p = row.querySelector(".detail p");
+      return p ? p.textContent.trim() : "";
+    }
+    function label(day, btn) {
+      var n = day.querySelectorAll(".row.past").length;
+      var open = day.classList.contains("show-past");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      var all = day.classList.contains("all-past");
+      btn.textContent = (open ? "Hide " : "Show ") + n + (all ? " stop" : " earlier stop") + (n === 1 ? "" : "s");
+    }
+    function until(ms) {
+      var m = Math.round(ms / 60000);
+      if (m < 1) return "now";
+      if (m < 60) return "in " + m + " min";
+      var h = Math.floor(m / 60), r = m % 60;
+      if (h < 10) return "in " + h + " h" + (r ? " " + r + " min" : "");
+      return null;
+    }
 
     function update(scroll) {
       var now = new Date();
       var today = stamp(now);
-      var book = document.getElementById("book");
-      if (book && today > "2026-11-02") book.hidden = true;
+
+      var book = $("book");
+      if (book) book.hidden = today > "2026-11-02";
 
       var dayId = days[today];
       document.querySelectorAll(".days a").forEach(function (a) {
         if (dayId && a.getAttribute("href") === "#" + dayId) a.setAttribute("aria-current", "date");
         else a.removeAttribute("aria-current");
       });
-      document.querySelectorAll(".today-badge").forEach(function (b) { b.remove(); });
+      document.querySelectorAll(".today").forEach(function (b) { b.remove(); });
       if (dayId) {
         var head = document.querySelector("#" + dayId + " .day-head");
-        if (head) head.insertAdjacentHTML("beforeend", '<span class="today-badge">Today</span>');
+        if (head) head.insertAdjacentHTML("beforeend", '<span class="today">Today</span>');
       }
 
-      document.querySelectorAll(".next").forEach(function (el) { el.classList.remove("next"); });
-      document.querySelectorAll(".flag.next").forEach(function (el) { el.remove(); });
-      var next = null;
-      document.querySelectorAll(".timeline time.time").forEach(function (t) {
-        if (!next && new Date(t.getAttribute("datetime")) >= now) next = t;
+      var idx = -1;
+      rows.forEach(function (row, i) {
+        row.classList.remove("next", "past");
+        var old = row.querySelector(".plate.next");
+        if (old) old.remove();
+        if (idx < 0 && at(row) >= now) idx = i;
       });
-      if (next && dayId) {
-        var row = next.closest("li");
+      var tripStarted = now >= at(rows[0]);
+      if (tripStarted) rows.forEach(function (row, i) { if (idx < 0 || i < idx) row.classList.add("past"); });
+
+      document.querySelectorAll(".day").forEach(function (day) {
+        var n = day.querySelectorAll(".row.past").length;
+        var btn = day.querySelector(".earlier");
+        if (!n) { if (btn) btn.remove(); day.classList.remove("show-past"); return; }
+        if (!btn) {
+          btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "earlier";
+          btn.addEventListener("click", function () {
+            day.classList.toggle("show-past");
+            label(day, btn);
+          });
+        }
+        var allPast = n === day.querySelectorAll(".row").length;
+        day.classList.toggle("all-past", allPast);
+        if (allPast) day.querySelector(".day-head").appendChild(btn);
+        else day.querySelector(".day-head").after(btn);
+        label(day, btn);
+      });
+
+      var sign = $("sign");
+      if (idx < 0) {
+        sign.dataset.kind = "drive";
+        delete sign.dataset.hard;
+        $("sign-time").textContent = "Done";
+        $("sign-when").textContent = "";
+        $("sign-label").textContent = "Trip complete: ";
+        $("sign-title").textContent = "Home safe";
+        $("sign-plaque").hidden = true;
+        $("sign-sub").textContent = "Chincoteague to Philadelphia, Nov 3–5, 2026.";
+        $("sign-go").hidden = true;
+        $("sign-call").hidden = true;
+        $("sign-then").hidden = true;
+        return;
+      }
+
+      var row = rows[idx];
+      if (tripStarted) {
         row.classList.add("next");
-        next.insertAdjacentHTML("afterend", '<span class="flag next">Next</span>');
-        if (scroll && !location.hash) row.scrollIntoView({ block: "center" });
+        timeOf(row).insertAdjacentHTML("afterend", '<span class="plate next">NEXT</span>');
+      }
+
+      var when = at(row);
+      var soon = until(when - now);
+      sign.dataset.kind = row.dataset.kind;
+      if (row.dataset.hard) sign.dataset.hard = row.dataset.hard; else delete sign.dataset.hard;
+      $("sign-time").textContent = timeOf(row).textContent;
+      $("sign-when").textContent = soon && tripStarted ? soon : (dayShort[stamp(when)] || "");
+      $("sign-label").textContent = (tripStarted ? "Next stop" : "First stop") + ", " + (row.dataset.hard || labels[row.dataset.kind] || "") + ": ";
+      $("sign-title").textContent = title(row);
+      $("sign-plaque").hidden = !row.dataset.hard;
+      $("sign-plaque").textContent = row.dataset.hard || "";
+      $("sign-sub").textContent = sub(row);
+
+      var map = row.querySelector('a.map[href^="https"]');
+      $("sign-go").hidden = !map;
+      if (map) $("sign-go").href = map.href;
+      var tel = row.querySelector('a[href^="tel:"]');
+      $("sign-call").hidden = !tel;
+      if (tel) $("sign-call").href = tel.href;
+
+      var then = rows[idx + 1];
+      $("sign-then").hidden = !then;
+      if (then) {
+        $("sign-then").firstElementChild.textContent = "Then " + timeOf(then).textContent.replace(/ (AM|PM)$/, "");
+        $("sign-then").lastElementChild.textContent = title(then);
+      }
+
+      if (scroll && tripStarted && !location.hash && dayId) {
+        document.querySelector(".sign-wrap").scrollIntoView({ block: "start" });
       }
     }
 
     update(true);
-    setInterval(function () { update(false); }, 60000);
+    setInterval(function () { update(false); }, 30000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) update(false); });
   })();
 </script>
 
-</body></html>
+</body>
+</html>

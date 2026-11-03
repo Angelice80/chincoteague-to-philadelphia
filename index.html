@@ -70,6 +70,8 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+  /* On yellow panels the ring turns black so it stays visible. */
+  .sign[data-hard] :focus-visible, .row.hard :focus-visible, .book :focus-visible { outline-color: var(--black); }
 
   a { color: inherit; }
 
@@ -552,7 +554,9 @@
     border-radius: 10px;
   }
   .row.next + .row { border-top: 0; }
-  .row.past { opacity: 0.55; }
+  /* Past stops step down to the quietest ink, which still clears AA. */
+  .row.past .time, .row.past .detail h3, .row.past .leg strong { color: var(--ink-3); }
+  .row.hard.past .time, .row.hard.past .detail h3 { color: var(--black); }
 
   /* ---------- costs ---------- */
 
@@ -612,7 +616,6 @@
     .row, .note, tr { break-inside: avoid; }
     .row.hard { border: 2px solid #000; }
     .row.next:not(.hard) { border: 0; margin: 0; }
-    .row.past { opacity: 1; }
     a.map { text-decoration: none; }
     .tbd, .cost.free { color: #000; border-color: #000; }
     .earlier { display: none; }
